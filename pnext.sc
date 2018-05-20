@@ -21,7 +21,10 @@ Mel {
 	var <proxy;
 
 	*new{ arg ... mel;
-		var instance = super.newCopyArgs(mel);
+		var instance;
+		if (mel[0].isArray,
+			{instance = super.newCopyArgs(mel[0])},
+			{instance = super.newCopyArgs(mel)});
 		Event.addEventType(this.name, this.play_f);
 		^instance.init();
 	}
@@ -34,9 +37,8 @@ Mel {
 			currentEnvironment.play;
 		}
 	}
-	pattern{ arg mel, rep = 1;
-		var m;
-		mel !? {m = Pseq(mel)} ?? {m = proxy} ;
+	pattern{ arg add = 0, mul = 1, rep = 1;
+		var m = (proxy + add) * mul;
 		^Pbind(
 			\type, this.class.name,
 			\degree, m,
@@ -45,12 +47,17 @@ Mel {
 			\dur, 1
 		).repeat(rep);
 	}
+	repeat{ arg val;
+		^this.pattern().repeat(val);
+	}
 	+= { arg val;
-		proxy = proxy + val;
+		proxy.source = proxy.source + val;
+	}
+	-> { arg val;
+		proxy.source = Pseq(val);
 	}
 	+ { arg val;
-		var m = mel + val;
-		^this.pattern(m);
+		^this.pattern(val);
 	}
 	asStream{
 		^this.pattern.asStream;
@@ -73,10 +80,16 @@ Fux : Mel {
 		^{ arg server;
 			var inter = ~next - ~next.sign;
 			var a = (0 .. inter);
+			// currentEnvironment.removeAt(\delta);
+			// currentEnvironment.removeAt(\server);
+			// currentEnvironment.postln;
 			(Pbind(
 				\degree, Pseq(a) + ~degree,
-				\dur, ~dur / (inter.abs + 1);
-			)).play
+				\dur, ~dur / (inter.abs + 1),
+				\scale, ~scale,
+				\amp, ~amp,
+				)
+			).play
 		};
 	}
 }
