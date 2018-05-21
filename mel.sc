@@ -1,23 +1,7 @@
-Pnext : FilterPattern {
-	embedInStream { arg event;
-		var stream = pattern.asStream;
-		var curr = stream.next(event);
-		var next;
-		while {
-			next = stream.next(event);
-			curr.notNil;
-		}{
-			if (next.isNil, {event = 0.yield}, {
-				event = (next - curr).yield
-			});
-			curr = next;
-		}
-		^event
-	}
-}
-
 Mel {
 	var <>mel;
+	var <>add = 0;
+	var <>dict;
 	var <proxy;
 
 	*new{ arg ... mel;
@@ -37,34 +21,37 @@ Mel {
 			currentEnvironment.play;
 		}
 	}
-	pattern{ arg add = 0, mul = 1, rep = 1;
-		var m = (proxy + add) * mul;
+	pattern{
+		var m = proxy + add;
 		^Pbind(
 			\type, this.class.name,
 			\degree, m,
 			\next, Pnext(m),
 			//		\prev, 5,
-			\dur, 1
-		).repeat(rep);
+		) <> (dict ? ());
 	}
 	repeat{ arg val;
 		^this.pattern().repeat(val);
 	}
-	+= { arg val;
-		proxy.source = proxy.source + val;
+	wrap { arg lo, hi;
+		proxy.source = proxy.source.wrap(lo, hi);
+		^this;
+	}
+	<> { arg d;
+		dict = d;
 	}
 	-> { arg val;
 		proxy.source = Pseq(val);
 	}
 	+ { arg val;
-		^this.pattern(val);
+		add = val;
 	}
 	asStream{
 		^this.pattern.asStream;
 	}
 	doesNotUnderstand{ arg sel ... args;
 		{
-			var pat = this.pattern.trace;
+			var pat = this.pattern;
 			pat.performList(sel, args);
 			^pat;
 		}.try({
@@ -76,20 +63,36 @@ Mel {
 Fux : Mel {
 	var <>seed;
 
+	*rythm_f {arg a;
+		^a.collect({1});
+	}
+	*mel_f { arg inter;
+		^(0 .. inter);
+	}
 	*play_f{ arg rep = inf;
-		^{ arg server;
-			var inter = ~next - ~next.sign;
-			var a = (0 .. inter);
-			// currentEnvironment.removeAt(\delta);
-			// currentEnvironment.removeAt(\server);
-			// currentEnvironment.postln;
-			(Pbind(
-				\degree, Pseq(a) + ~degree,
-				\dur, ~dur / (inter.abs + 1),
+		^{
+			var mel = this.mel_f(~next - ~next.sign);
+			var durs = this.rythm_f(mel);
+			Pbind(
+				\degree, Pseq(mel + ~degree),
+				\dur, Pseq(durs.normalizeSum * ~dur),
 				\scale, ~scale,
+				\mtranspose, ~mtranspose,
+				\instrument, ~instrument,
 				\amp, ~amp,
-				)
 			).play
 		};
+	}
+}
+
+Fux_r : Fux {
+	*rythm_f {arg b;
+		^switch(b.size,
+			3, { [1, 2, 1]},
+			5, { [1, 2, 1, 2]},
+			6, { [1, 2, 1, 2]},
+			7, { [1, 2, 2, 1, 1]},
+			b.collect({1});
+		)
 	}
 }
