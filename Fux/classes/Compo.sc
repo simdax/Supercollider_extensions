@@ -13,10 +13,10 @@ Ppar_options : Ppar{
 		});
 		options_patterns = f.(values)
 		.collect{ arg i; keys +++ i}
-		.collect{arg i; Pbind(*i.flatten.postln)};
+		.collect{arg i; Pbind(*i.flatten/*.postln*/)};
 		^(patterns +++ options_patterns).flatten
 		.collect_pairs{arg pat1, pat2;
 			pat1 <> pat2;
-		}.postln
+		}
 	}
 }
