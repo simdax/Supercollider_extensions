@@ -1,0 +1,14 @@
+#/bin/bash
+
+try_open () {
+				open $1 || xdg-open $1
+}
+				
+
+
+out=/tmp/tmp.ly
+name=$(basename $1)
+echo $out
+midi2ly -o $out $1
+lilypond -o $name $out
+try_open $name.pdf

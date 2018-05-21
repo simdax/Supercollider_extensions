@@ -16,6 +16,18 @@ Pnext : FilterPattern {
 	}
 }
 
++ Array {
+	collect_pairs{ arg f;
+		var res = [];
+		var i = 0;
+		while {i < this.size} {
+			res = res.add(f.(this[i], this[i + 1]));
+			i = i + 2;
+		}
+		^res;
+	}
+}
+
 + Scale {
 	*greeks{
 		^[\ionian, \dorian, \phrygian, \lydian, \myxolydian, \minor]
