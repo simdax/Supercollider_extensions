@@ -71,8 +71,12 @@ Fux : Mel {
 	}
 	*play_f{ arg rep = inf;
 		^{
-			var mel = this.mel_f(~next - ~next.sign);
-			var durs = this.rythm_f(mel);
+			var mel = if(~mel_f.notNil)
+			{~mel_f.(~next - ~next.sign)}
+			{this.mel_f(~next.postln - ~next.sign)};
+			var durs = if(~rythm_f.notNil)
+			{~rythm_f.(mel)}
+			{this.rythm_f(mel)};
 			Pbind(
 				\degree, Pseq(mel + ~degree),
 				\dur, Pseq(durs.normalizeSum * ~dur),
@@ -88,10 +92,10 @@ Fux : Mel {
 Fux_r : Fux {
 	*rythm_f {arg b;
 		^switch(b.size,
-			3, { [1, 2, 1]},
-			5, { [1, 2, 1, 2]},
-			6, { [1, 2, 1, 2]},
-			7, { [1, 2, 2, 1, 1]},
+			3, { [2, 1]},
+			5, { [2, 1, 2, 1, 1]},
+			6, { [2, 1, 2, 1, 2, 1]},
+			7, { [2, 1, 2, 1, 2, 1, 1]},
 			b.collect({1});
 		)
 	}

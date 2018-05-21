@@ -15,8 +15,7 @@ Contrapunctum{
 	}
 	rule_mvt{ arg cf, harmo, prec_note;
 		var dist = (harmo + cf) - prec_note;
-		dist.post;
-		^cf + if (dist > 3) {harmo - 7} { if (dist < -3) {harmo + 7} {harmo}  }
+		^cf + if (dist > 3) {harmo - 7} { if (dist < -3) {harmo + 7} {harmo} }
 	}
 	init{ arg m;
 		var i = 1;
