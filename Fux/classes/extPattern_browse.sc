@@ -1,6 +1,6 @@
 + Pattern {
 	browse{ arg defaultEvent = Event.default,
-		f = {arg ev, time; "% % % ".format(ev, time, ev.delta).postln; ev.delta},
+		f = {arg ev, time; "note : % @ %".format(ev.degree, time).postln; ev.delta},
 		time = 0, maxEvents = 100;
 
 		var event, count = 0;
@@ -12,16 +12,21 @@
 			event.use({
 				if( event.isRest.not ) // not a \rest
 				{time = time + f.(event, time)};
+			//	"gros gros time : %".format(time).postln;
 			});
 		}
 		^time;
+	}
+	engrave {
+		Engrave(this);
 	}
 }
 
 + Mel {
 	browse { arg f, defaultEvent;
 		this.pattern.browse(defaultEvent, { arg event, time;
-			this.class.pr_play_f.browse(event, f, time)
+			var t2 = this.class.pr_play_f.browse(event, f, time);
+			t2 - time;
 		});
 	}
 }

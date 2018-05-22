@@ -11,12 +11,12 @@ Engrave(a);
 )
 
 (
-Pbind(\dur, Pseq([1])).browse;
+Pbind(\degree, Prand([1, 2, 3, 4], inf), \dur, Pseq([1], 40)).browse;
 )
 
 (
 // a = (Fux([4, 3, 1])).browse;
-a = (Fux([4, 3, 1])).engrave;
+a = (Fux(Array.rand(5, 0, 10))).engrave;
 )
 
 a = SimpleMIDIFile().fromPattern(Pbind())
