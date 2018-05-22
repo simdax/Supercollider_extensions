@@ -27,6 +27,7 @@ Fux : Mel {
 		var globs = this.global_f();
 		var mel = globs[0], durs = globs[1];
 		^Pbind(
+			\type, \note,
 			\degree, Pseq(mel + ~degree),
 			\dur, Pseq(durs.normalizeSum * ~dur),
 			\scale, ~scale,

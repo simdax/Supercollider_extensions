@@ -5,8 +5,8 @@ c = Contrapunctum(a);
 d = Contrapunctum(a);
 // "../synths/synths.scd".resolveRelative.load;
 
-p = Pdef(\i,
-	Ppar([
+// p = Pdef(\i,
+p =	Ppar([
 		Ppar_options([
 			Fux_r(b.final),
 			Fux_r(a),
@@ -14,13 +14,14 @@ p = Pdef(\i,
 			// Fux_r(c.final - 2),
 		],
 		\stk_inst, [6],
-		\instrument, [\piano, \piano, \b, \c],
+		\instrument, [\piano, \piano2, \b, \c],
 		\mtranspose, [0, 0, 0, 0],
 		\octave, [5, 4, 4, 3],
 		\amp, [1, 0.5, 0.5, 0.3] * 0.75),
 		// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
-	]) <> (scale: Scale.greeks, tempo: 1)
-);
+]);// <> (scale: Scale.greeks, tempo: 1);
+// );
+p.browse;
 p.engrave;
 )
 

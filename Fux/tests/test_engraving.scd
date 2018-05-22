@@ -19,7 +19,7 @@ a = (Mel([4, 3, 8, 1])).engrave;
 )
 
 (
-Ppar([Pbind(\degree, [0, 3, 2].iter), Fux(1, 5)]).browse;
+Ppar([Pbind(\degree, [0, 3, 2].iter), Fux(1, 5, 6, 1)]).browse;
 Ppar([
 	Pbind(\instrument, \a, \degree, [0, 3, 2].iter),
 	Fux(1, 5) <> (instrument: \b)]).engrave;

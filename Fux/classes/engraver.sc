@@ -1,3 +1,5 @@
+// general object
+// no need to use
 Engrave {
 	*new{ arg pattern, write_path;
 		// var path = "../pdfs".resolveRelative;
@@ -14,8 +16,8 @@ Engrave {
 	}
 }
 
+// re writing SimpleMidiFile from pattern
 + Pattern {
-	// re writing SimpleMidiFile from pattern
 	pr_engrave{ arg time = 0, maxAmp = 1; // ??
 		var tmode, defaultEvent, instruments = [];
 		var midi = SimpleMIDIFile();
