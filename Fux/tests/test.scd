@@ -8,8 +8,8 @@ d = Contrapunctum(a);
 p = Pdef(\i,
 	Ppar([
 		Ppar_options([
-			Fux_r(b.final).pattern,
-			Fux_r(a).pattern,
+			Fux_r(b.final),
+			Fux_r(a),
 			// Fux_r(d.final),
 			// Fux_r(c.final - 2),
 		],
@@ -19,12 +19,11 @@ p = Pdef(\i,
 		\octave, [5, 4, 4, 3],
 		\amp, [1, 0.5, 0.5, 0.3] * 0.75),
 		// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
-	]) <> (scale: Scale.greeks, tempo: 3)
+	]) <> (scale: Scale.greeks, tempo: 1)
 );
-Engrave(p, );
+//p.browse;
 )
 
 (s.waitForBoot{
-	p.play
+	p.repeat.play
 })
-

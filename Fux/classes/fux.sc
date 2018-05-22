@@ -1,5 +1,6 @@
 Fux : Mel {
 	var <>seed;
+	var engrave = true;
 
 	*global_f{
 		var diff = ~next - ~next.sign;
@@ -22,7 +23,7 @@ Fux : Mel {
 	*mel_f { arg inter;
 		^(0 .. inter);
 	}
-	*pr_play_f {
+	*pr_event_pat {
 		var globs = this.global_f();
 		var mel = globs[0], durs = globs[1];
 		^Pbind(

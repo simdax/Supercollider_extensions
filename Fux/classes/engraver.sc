@@ -15,11 +15,8 @@ Engrave {
 }
 
 + Mel {
-	// re writing SimpleMidiFile from pattern
-	pr_engrave{ arg time = 0, maxAmp = 1; // ??
-		var tmode, defaultEvent, instruments = [];
-		var midi = SimpleMIDIFile();
-		var f = { arg event, time;
+	pr_engrave_f {
+		^{ arg event, time;
 			[
 				event.midinote2,
 				event.velocity,
@@ -32,8 +29,11 @@ Engrave {
 			].multiChannelExpand // allow multi-note events
 			.do({ |array|
 				midi.addNote( *array ); });
-			event.delta;
 		};
+	}
+	// re writing SimpleMidiFile from pattern
+	pr_engrave{ arg time = 0, maxAmp = 1; // ??
+		var tmode, defaultEvent, instruments = [];
 
 		if( midi.timeMode != \seconds )
 		{ tmode = midi.timeMode;
@@ -67,7 +67,7 @@ Engrave {
 		//		};
 
 		// go
-		this.browse(f, defaultEvent);
+		this.browse(defaultEvent);
 
 		// sorting and post-processing
 		midi.adjustTracks;
