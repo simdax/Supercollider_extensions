@@ -3,7 +3,7 @@ a = (Array.fill(20, _.value)+ Array.rand(2, 0, 3)).integrate.mod(7);
 b = Contrapunctum(a);
 c = Contrapunctum(a);
 d = Contrapunctum(a);
-"../synths/synths.scd".resolveRelative.load;
+// "../synths/synths.scd".resolveRelative.load;
 
 p = Pdef(\i,
 	Ppar([
@@ -21,7 +21,7 @@ p = Pdef(\i,
 		// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
 	]) <> (scale: Scale.greeks, tempo: 1)
 );
-//p.browse;
+p.engrave;
 )
 
 (s.waitForBoot{

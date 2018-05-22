@@ -1,6 +1,9 @@
 + Pattern {
-	midi{ ^nil }
 	pr_browse {arg ev, time, f;
+		"% : % @ %".format(ev.type, ev.degree, time).postln;
+		f.(ev, time);
+	}
+	*pr_browse {arg ev, time, f;
 		"% : % @ %".format(ev.type, ev.degree, time).postln;
 		f.(ev, time);
 	}
@@ -21,12 +24,23 @@
 		}
 		^time;
 	}
-	engrave {
-		Engrave(this);
+	// engrave {
+	// 	Engrave(this);
+	// }
+}
+
++ Ppar {
+	pr_browse {arg ev, time, f;
+		if (ev.type === \Fux) {
+			ev.delta = nil; Fux.pr_browse(ev, time, f)}
+		{Pattern.pr_browse(ev, time, f)};
 	}
 }
 
 + Fux {
+	*pr_browse { arg event, time, f;
+		^this.pr_event_pat.browse(event, f, time) - time;
+	}
 	pr_browse { arg event, time, f;
 		^this.class.pr_event_pat.browse(event, f, time) - time;
 	}

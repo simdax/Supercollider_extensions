@@ -17,3 +17,10 @@ a = (Fux(Array.rand(25, 0, 10))).browse;
 a = (Fux([4, 3, 8, 1])).engrave;
 a = (Mel([4, 3, 8, 1])).engrave;
 )
+
+(
+Ppar([Pbind(\degree, [0, 3, 2].iter), Fux(1, 5)]).browse;
+Ppar([
+	Pbind(\instrument, \a, \degree, [0, 3, 2].iter),
+	Fux(1, 5) <> (instrument: \b)]).engrave;
+)

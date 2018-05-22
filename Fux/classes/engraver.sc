@@ -14,7 +14,7 @@ Engrave {
 	}
 }
 
-+ Mel {
++ Pattern {
 	// re writing SimpleMidiFile from pattern
 	pr_engrave{ arg time = 0, maxAmp = 1; // ??
 		var tmode, defaultEvent, instruments = [];
@@ -66,34 +66,34 @@ Engrave {
 			.do({ |array| midi.addNote( *array ) });
 		});
 
-	// sorting and post-processing
-	midi.adjustTracks;
-	midi.sortMIDIEvents;
-	midi.adjustEndOfTrack;
+		// sorting and post-processing
+		midi.adjustTracks;
+		midi.sortMIDIEvents;
+		midi.adjustEndOfTrack;
 
-	// if( format > 0 )
-	// { // add instrument names if found
-	(midi.tracks - 1).do({ |i|
-		if(instruments[i].notNil )
-		{ midi.setInstName( instruments[i].asString, i+1 ); };
-	});
-	^midi;
-	// };
-	//
-	// if( tmode.notNil ) { midi.timeMode = tmode }; // change back to original
-}
+		// if( format > 0 )
+		// { // add instrument names if found
+		(midi.tracks - 1).do({ |i|
+			if(instruments[i].notNil )
+			{ midi.setInstName( instruments[i].asString, i+1 ); };
+		});
+		^midi;
+		// };
+		//
+		// if( tmode.notNil ) { midi.timeMode = tmode }; // change back to original
+	}
 
-engrave{ arg write_path;
-	// var path = "../pdfs".resolveRelative;
-	var path = "/tmp";
-	var name = Date.getDate.format("%d-%m-%Y%H-%M")
-	++ "_out.mid";
-	var real_path = "%/%".format(path, name);
-	var midi_bin = "../vendor/midi2ly2".resolveRelative;
-	var midi = this.pr_engrave;
+	engrave{ arg write_path;
+		// var path = "../pdfs".resolveRelative;
+		var path = "/tmp";
+		var name = Date.getDate.format("%d-%m-%Y%H-%M")
+		++ "_out.mid";
+		var real_path = "%/%".format(path, name);
+		var midi_bin = "../vendor/midi2ly2".resolveRelative;
+		var midi = this.pr_engrave;
 
-	"writing to : %".format(real_path).postln;
-	midi.write(real_path);
-	"% % %".format(midi_bin, real_path, write_path ? "").postln.unixCmd;
-}
+		"writing to : %".format(real_path).postln;
+		midi.write(real_path);
+		"% % %".format(midi_bin, real_path, write_path ? "").postln.unixCmd;
+	}
 }
