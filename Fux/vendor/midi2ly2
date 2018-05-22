@@ -1,15 +1,19 @@
-#/bin/bash
+#!/bin/sh
 
 try_open () {
-				open $1 || xdg-open $1
+				evince $1 || open $1 || xdg-open $1
 }
 
-echo ta race
-out=/tmp/tmp.ly
+transform () {
+				musescore -o $2 $1
+}
+
 name=$1 #$(basename $1)
-echo $out
-midi2ly -o $out $1
 echo transformation $name
-lilypond -o $name $out
-echo opening $name
-try_open $name.pdf
+transform $name $name.pdf
+try_open $name.pdf &
+if [ ! -z $2 ]; then
+				echo on copie dans $2
+				cp $name.pdf $2
+				cp $name $2
+fi	
