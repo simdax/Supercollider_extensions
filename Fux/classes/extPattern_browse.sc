@@ -1,25 +1,8 @@
-Pbind_print : Pbind {
-	var midi;
-
-	pr_browse { arg event, time, midi;
-		[
-			event.midinote2,
-			event.velocity,
-			time,
-			event.sustain,
-			event.upVelo, // addNote copies noteNumber if nil
-			event.channel ? 0,
-			event.track ?? {midi.format.min(1)}, // format 0: all in track 0
-			false // don't sort (yet)
-		].multiChannelExpand // allow multi-note events
-		.do({ |array| midi.addNote( *array ) });
-	}
-}
-
 + Pattern {
 	midi{ ^nil }
-	pr_browse {arg ev, time;
+	pr_browse {arg ev, time, f;
 		"% : % @ %".format(ev.type, ev.degree, time).postln;
+		f.(ev, time);
 	}
 	browse { arg defaultEvent = Event.default, f, time = 0, maxEvents = 100;
 		var event, count = 0;
@@ -31,8 +14,7 @@ Pbind_print : Pbind {
 			event.use({
 				if( event.isRest.not ) // not a \rest
 				{
-					f !? {f.(event, time)} ??
-					{this.pr_browse(event, time, this.midi)};
+					this.pr_browse(event, time, f);
 					time = time + event.delta;
 				}
 			});
@@ -45,7 +27,7 @@ Pbind_print : Pbind {
 }
 
 + Fux {
-	pr_browse { arg event, time;
-		^this.class.pr_event_pat.browse(event, time: time) - time;
+	pr_browse { arg event, time, f;
+		^this.class.pr_event_pat.browse(event, f, time) - time;
 	}
 }
