@@ -3,9 +3,6 @@
 		"(%)% : % @ %".format(ev.type, ev.instrument, ev.degree, time).postln;
 		f.(ev, time);
 	}
-	// pr_browse {arg ev, time, f;
-	// 	this.class.pr_browse(ev, time, f);
-	// }
 	browse { arg defaultEvent = Event.default, f, time = 0, maxEvents = 100;
 		var event, count = 0;
 		var stream = this.asStream;
@@ -27,6 +24,14 @@
 		}
 		^time;
 	}
+}
+
++ Pchain {
+
+}
+
++ EventPatternProxy {
+
 }
 
 + Fux {

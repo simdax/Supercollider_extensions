@@ -1,19 +1,22 @@
 // general object
-// no need to use
+// no need to use directly
 Engrave {
-	*new{ arg pattern, write_path;
+	*new{ arg pattern, path, format, engine;
+		^super.new.go(pattern, path, format, engine)
+	}
+	go { arg pattern, write_path, format = "svg", engine;
 		// var path = "../pdfs".resolveRelative;
 		var path = "/tmp";
 		var name = Date.getDate.format("%d-%m-%Y%H-%M")
 		++ "_out.mid";
 		var real_path = "%/%".format(path, name);
 		var midi_bin = "../vendor/midi2ly2".resolveRelative;
-		var midi = SimpleMIDIFile.fromPattern(pattern);
+		var midi = engine ? SimpleMIDIFile.fromPattern(pattern);
 
 		"writing to : %".format(real_path).postln;
 		midi.write(real_path);
-		"% % %".format(midi_bin, real_path, write_path ? "").postln.unixCmd;
-	}
+		"% % % %".format(midi_bin, real_path,
+			format, write_path ? "").postln.unixCmd;}
 }
 
 // re writing SimpleMidiFile from pattern
@@ -85,17 +88,7 @@ Engrave {
 		// if( tmode.notNil ) { midi.timeMode = tmode }; // change back to original
 	}
 
-	engrave{ arg write_path;
-		// var path = "../pdfs".resolveRelative;
-		var path = "/tmp";
-		var name = Date.getDate.format("%d-%m-%Y%H-%M")
-		++ "_out.mid";
-		var real_path = "%/%".format(path, name);
-		var midi_bin = "../vendor/midi2ly2".resolveRelative;
-		var midi = this.pr_engrave;
-
-		"writing to : %".format(real_path).postln;
-		midi.write(real_path);
-		"% % %".format(midi_bin, real_path, write_path ? "").postln.unixCmd;
+	engrave{ arg write_path, format = "svg";
+		Engrave(nil, write_path, format, this.pr_engrave);
 	}
 }

@@ -52,6 +52,7 @@ Contrapunctum{
 		^final.do(f);
 	}
 	printOn{ arg out;
+		out << this.class.name << "\n";
 		out << "mel :" << mel << "\n";
 		out << "harmo :" << harmo << "\n";
 		out << "final :" << final;

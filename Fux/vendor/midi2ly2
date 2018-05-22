@@ -1,19 +1,27 @@
 #!/bin/sh
 
+name=$1 #$(basename $1)
+format=$2
+out=$3
+if [ $format == "pdf" ]; then
+				soft=evince				
+else
+				soft=firefox
+fi
+
 try_open () {
-				evince $1 || open $1 || xdg-open $1
+			$soft $1 || open $1 || xdg-open $1
 }
 
 transform () {
 				musescore -o $2 $1
 }
 
-name=$1 #$(basename $1)
 echo transformation $name
-transform $name $name.pdf
-try_open $name.pdf &
-if [ ! -z $2 ]; then
-				echo on copie dans $2
-				cp $name.pdf $2
-				cp $name $2
+transform $name $name.$format
+try_open $name.$format&
+if [ ! -z $out ]; then
+				echo on copie dans $out
+				cp $name.$format $out
+				cp $name $out
 fi	
