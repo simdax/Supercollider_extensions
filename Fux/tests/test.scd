@@ -1,7 +1,5 @@
 (
-a = (Array.fill(20, _.value)+ Array.rand(2, 0, 3))
-
-.integrate.mod(7);
+a = (Array.fill(20, _.value)+ Array.rand(2, 0, 3)).integrate.mod(7);
 b = Contrapunctum(a);
 c = Contrapunctum(a);
 d = Contrapunctum(a);
@@ -10,22 +8,23 @@ d = Contrapunctum(a);
 p = Pdef(\i,
 	Ppar([
 		Ppar_options([
-			Fux_r(c.final - 7),
-			Fux_r(b.final + 7),
-			Fux_r(a) - 14,
-			Fux_r(d.final),
+			Fux_r(b.final).pattern,
+			Fux_r(a).pattern,
+			// Fux_r(d.final),
+			// Fux_r(c.final - 2),
 		],
 		\stk_inst, [6],
-		\instrument, [\piano],
+		\instrument, [\piano, \piano, \b, \c],
 		\mtranspose, [0, 0, 0, 0],
-		\octave, [3, 5, 5, 6],
+		\octave, [5, 4, 4, 3],
 		\amp, [1, 0.5, 0.5, 0.3] * 0.75),
 		// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
 	]) <> (scale: Scale.greeks, tempo: 3)
 );
-Lilypond(p);
+Engrave(p, );
 )
-s.waitForBoot{
-	//p.play
-}
+
+(s.waitForBoot{
+	p.play
+})
 
