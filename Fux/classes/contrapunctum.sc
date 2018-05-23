@@ -1,21 +1,14 @@
-Contrapunctum{
+Contrapunctum : Pattern{
 	var <>lo, <>hi;
 	var <mel;
 	var <harmo;
 	var <final;
 
-	*new{ arg mel, lo = -5, hi = 5;
+	*new{ arg mel = Array.rand(5, 0, 5),
+		lo = -5, hi = 5;
 		if(mel.size < 2)
 		{Error.throw("unsifficient size < 2")};
 		^super.new(lo, hi).init(mel);
-	}
-	// logic
-	rule_harmo { arg harmo_prec, mvt_sign, mvt_note_sign;
-		^((mvt_sign != mvt_note_sign) && ([0, 4].includes(harmo_prec).not)).asInt;
-	}
-	rule_mvt{ arg cf, harmo, prec_note;
-		var dist = (harmo + cf) - prec_note;
-		^cf + if (dist > 3) {harmo - 7} { if (dist < -3) {harmo + 7} {harmo} }
 	}
 	init{ arg m;
 		var i = 1;
@@ -38,6 +31,14 @@ Contrapunctum{
 		});
 		mel = m;
 	}
+	// logic
+	rule_harmo { arg harmo_prec, mvt_sign, mvt_note_sign;
+		^((mvt_sign != mvt_note_sign) && ([0, 4].includes(harmo_prec).not)).asInt;
+	}
+	rule_mvt{ arg cf, harmo, prec_note;
+		var dist = (harmo + cf) - prec_note;
+		^cf + if (dist > 3) {harmo - 7} { if (dist < -3) {harmo + 7} {harmo} }
+	}
 	// OOP
 	add{ arg item;
 		final = final.add(item);
@@ -53,9 +54,18 @@ Contrapunctum{
 	}
 	printOn{ arg out;
 		out << this.class.name << "\n";
-		out << "mel :" << mel << "\n";
-		out << "harmo :" << harmo << "\n";
-		out << "final :" << final;
+		out << "mel : " << mel << "\n";
+		out << "harmo : " << harmo << "\n";
+		out << "final : " << final;
+	}
+	embedInStream{ arg inval;
+		var i = 0;
+		while {final[i].notNil}{
+			inval.harmo = harmo[i];
+			inval = final[i].yield;
+			i = i + 1;
+		}
+		^inval;
 	}
 	doesNotUnderstand{arg sel ... args;
 		^final.performList(sel, args);
