@@ -37,10 +37,7 @@ Engrave {
 			{ ~freq.cpsmidi }
 			{ ~midinote.value }
 		};
-		//
-		// if( midi.format > 0 )
-		// {
-		defaultEvent[ \track ] = { // auto recognize tracks by instrument
+		defaultEvent[ \track ] = {
 			if( ~instrument.value.isString,
 				{ [ ~instrument.value ] },
 				{ ~instrument.value.asCollection })
@@ -55,7 +52,6 @@ Engrave {
 				};
 			});
 		};
-		//		};
 
 		// go
 		this.browse(defaultEvent, { arg event, time;
@@ -76,21 +72,14 @@ Engrave {
 		midi.adjustTracks;
 		midi.sortMIDIEvents;
 		midi.adjustEndOfTrack;
-
-		// if( format > 0 )
-		// { // add instrument names if found
 		(midi.tracks - 1).do({ |i|
 			if(instruments[i].notNil )
 			{ midi.setInstName( instruments[i].asString, i+1 ); };
 		});
 		^midi;
-		// };
-		//
-		// if( tmode.notNil ) { midi.timeMode = tmode }; // change back to original
 	}
 
-	engrave{ arg format = "pdfxml
-", write_path;
+	engrave{ arg format = \svg, write_path;
 		Engrave(this.pr_engrave, write_path, format);
 	}
 }
