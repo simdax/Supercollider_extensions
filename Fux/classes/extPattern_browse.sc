@@ -3,7 +3,8 @@
 		"(%)% : % @ %".format(ev.type, ev.instrument, ev.degree, time).postln;
 		f.(ev, time);
 	}
-	browse { arg defaultEvent = Event.default, f, time = 0, maxEvents = 100;
+	browse { arg defaultEvent = Event.default, f,
+		time = 0, maxEvents = 100;
 		var event, count = 0;
 		var stream = this.asStream;
 
@@ -13,12 +14,13 @@
 			event.use({
 				if( event.isRest.not )
 				{
-					var t = if (this.class === Ppar)
-					{event.delta}{event.dur};
+					// var t = if (this.class === Ppar)
+					// {event.delta}{event.dur};
 					(if (event.type.asClass.respondsTo('pr_browse'))
 						{event.type.asClass} {this})
 					.perform(\pr_browse, event, time, f);
-					time = time + t;
+					// time = time + t;
+					time = time + event.delta
 				}
 			});
 		}
@@ -26,12 +28,24 @@
 	}
 }
 
-+ Pchain {
++ ListPattern {
+	browse {
+		arg defaultEvent = Event.default, f,
+		time = 0, maxEvents = 100;
 
+		list.do{ arg pattern;
+			time = pattern.browse(defaultEvent, f, time, maxEvents);
+		}
+	}
 }
 
-+ EventPatternProxy {
++ Ppar {
+	browse {
+		arg defaultEvent = Event.default, f,
+		time = 0, maxEvents = 100;
 
+		list.do(_.browse(defaultEvent, f, time, maxEvents))
+	}
 }
 
 + Fux {

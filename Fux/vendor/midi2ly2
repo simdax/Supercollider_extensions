@@ -1,11 +1,14 @@
 #!/bin/sh
 
-name=$1 #$(basename $1)
+name=$1
 format=$2
 out=$3
+script_path=$4
+
 if [ $format == "pdf" ]; then
 				soft=evince				
 else
+				page=-1
 				soft=firefox
 fi
 
@@ -14,13 +17,16 @@ try_open () {
 }
 
 transform () {
-				musescore -o $2 $1
+				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
+				musescore -o $1.$format $1
+				sed -i '$i'"$js_tag" $1$page.$format
+				cat $1.$format $1$page.$format
 }
 
 echo transformation $name
-transform $name $name.$format
-try_open $name.$format&
-if [ ! -z $out ]; then
+transform $name
+try_open $name$page.$format&
+if [ ! $out == "nil" ]; then
 				echo on copie dans $out
 				cp $name.$format $out
 				cp $name $out

@@ -1,6 +1,10 @@
 //simple test
 
 (
+Engrave(Pbind().fin(10))
+)
+
+(
 a = Ppar([
 	Pbind(\instrument, \a, \dur, 1),
 	Pbind(\instrument, \b, \degree, 3, \dur, 2),
@@ -8,6 +12,16 @@ a = Ppar([
 	Pbind(\instrument, \d, \degree, 5, \dur, 2),
 ]);
 a.engrave;
+)
+
+(
+a = Pseq([
+	Pbind(\instrument, \a, \dur, 1).fin(5),
+	Pbind(\instrument, \b, \degree, 3, \dur, 2).fin(5),
+	Pbind(\instrument, \c, \degree, 2, \dur, Pseq([1, 2], inf)).fin(5),
+	Pbind(\instrument, \d, \degree, 5, \dur, 2).fin(5),
+]);
+a.engrave("~/io", \pdf);
 )
 
 (

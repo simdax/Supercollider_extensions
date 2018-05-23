@@ -4,19 +4,20 @@ Engrave {
 	*new{ arg pattern, path, format, engine;
 		^super.new.go(pattern, path, format, engine)
 	}
-	go { arg pattern, write_path, format = "svg", engine;
-		// var path = "../pdfs".resolveRelative;
+	go { arg pattern, write_path, format = "svg";
 		var path = "/tmp";
 		var name = Date.getDate.format("%d-%m-%Y%H-%M")
 		++ "_out.mid";
 		var real_path = "%/%".format(path, name);
 		var midi_bin = "../vendor/midi2ly2".resolveRelative;
-		var midi = engine ? SimpleMIDIFile.fromPattern(pattern);
+		var script_path = "../vendor/annotations.js".resolveRelative;
+		var midi = (pattern.class === Pattern).if
+		{SimpleMIDIFile.fromPattern(pattern)} {pattern};
 
 		"writing to : %".format(real_path).postln;
 		midi.write(real_path);
-		"% % % %".format(midi_bin, real_path,
-			format, write_path ? "").postln.unixCmd;}
+		"% % % % %".format(midi_bin, real_path,
+			format, write_path, script_path).postln.unixCmd;}
 }
 
 // re writing SimpleMidiFile from pattern
@@ -88,7 +89,8 @@ Engrave {
 		// if( tmode.notNil ) { midi.timeMode = tmode }; // change back to original
 	}
 
-	engrave{ arg write_path, format = "svg";
-		Engrave(nil, write_path, format, this.pr_engrave);
+	engrave{ arg format = "pdfxml
+", write_path;
+		Engrave(this.pr_engrave, write_path, format);
 	}
 }
