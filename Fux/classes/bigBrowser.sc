@@ -15,12 +15,14 @@ BigBrowser {
 		^super.new().init(patterns);
 	}
 	init{ arg patterns;
-		score = EventPatternProxy(Ppar(patterns));
+		score = Ppar(patterns);
 		bigData = PriorityQueue();
 	}
 	browse {
 		if (bigData.isEmpty){
 			score.browse(f: { arg event, time;
+				event.postln;
+				time.postln;
 				bigData.put(time, event);
 			})
 		};

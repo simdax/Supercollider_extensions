@@ -15,12 +15,9 @@
 			event.use({
 				if( event.isRest.not )
 				{
-					// var t = if (this.class === Ppar)
-					// {event.delta}{event.dur};
-					(if (event.type.asClass.respondsTo('pr_browse'))
+					(if  (event.type.asClass.respondsTo('pr_browse'))
 						{event.type.asClass} {this})
 					.perform(\pr_browse, event, time, f);
-					// time = time + t;
 					time = time + event.delta
 				}
 			});

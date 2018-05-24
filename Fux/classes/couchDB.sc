@@ -4,6 +4,8 @@ CouchDB {
 	var <rev;
 	var <ip = \localhost;
 	var <port = 5984;
+	classvar <ip = \localhost;
+	classvar <port = 5984;
 
 	// init
 	*new { arg db, id;
@@ -11,6 +13,11 @@ CouchDB {
 		id ?? {Error("no ID").throw};
 		^super.newCopyArgs(db, id).init();
 	}
+	// maybe check at creation ?
+	// *create_db{
+	// 	var res = this.curl(\PUT);
+	// 	if()
+	// }
 	init{
 		rev = this.get.asString.parseYAML.at("_rev");
 	}
@@ -21,10 +28,10 @@ CouchDB {
 	get{
 		^this.curl.unixCmdGetStdOut.replace($\n, "");
 	}
-	post{ arg content;
+	put{ arg content;
 		var send = rev !? {(_rev: rev)} ?? {()} ++ content;
-		^(this.curl(\PUT) ++ "-d " ++
+		(this.curl(\PUT) ++ "-d " ++
 			JSON.stringify(send).shellQuote)
-		.postln.unixCmdGetStdOut;
+		.postln.unixCmd(postOutput: true);
 	}
 }

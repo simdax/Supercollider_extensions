@@ -26,15 +26,15 @@
 		});
 		^res;
 	}
-	extract_all{ arg by = \index;
+	asDict{ arg by = \index;
 		^if (by === \time) {this.pr_extract_all_time}
 		{this.pr_extract_all_index};
 	}
 	json{ arg s = \index;
-		^JSON.stringify(this.extract_all(s));
+		^JSON.stringify(this.asDict(s));
 	}
-	putDb{ arg db = \music, id = 1;
-		var res = CouchDB(db, id).post(this.extract_all);
+	putDb{ arg db = \music, id = 1, as='time';
+		var res = CouchDB(db, id).post(this.asDict(as));
 		res.postln;
 	}
 	write{ arg path, s = \index;

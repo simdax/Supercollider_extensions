@@ -11,7 +11,7 @@ x = [b, c, d].collect{ arg val, i;
 	BigBrowser(Pbind()).putDb(id:i.postln);
 	mel
 };
-x = x.add(Fux_r(a));
+x = x.add(Mel(a));
 
 // p = Pdef(\i,
 p =	Ppar([
@@ -27,7 +27,9 @@ p =	Ppar([
 	// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
 ]);
 p.engrave;
-BigBrowser(p).putDb(id:"master")
+BigBrowser(p).asDict(\index).keysValuesDo{arg k, v;
+	CouchDB(\master_music, k).put(v)
+}
 )
 
 (s.waitForBoot{
