@@ -1,8 +1,8 @@
 BigBrowser {
 	var <>bigData;
 	var score;
-	var couchDB_rev;
-	var couchDB_id = 1;
+	var db = "music";
+	var id = 1;
 
 	*new { arg ... patterns;
 		patterns.isEmpty.if {

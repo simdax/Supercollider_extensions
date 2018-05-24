@@ -33,10 +33,8 @@
 	json{ arg s = \index;
 		^JSON.stringify(this.extract_all(s));
 	}
-	putDb{
-		var ret = "curl -d % localhost:5984/music/1"
-		.format(this.json).unixCmdGetStdOut;
-		^couchDB_rev = parseYAML(ret).rev;
+	putDb{ arg db = \music, id = 1;
+		^CouchDB(db, id).post(this.extract_all);
 	}
 	write{ arg path, s = \index;
 		path = path ?

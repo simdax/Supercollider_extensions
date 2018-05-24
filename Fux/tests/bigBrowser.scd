@@ -11,5 +11,8 @@ b= a.extract_part(\bobi).postln;
 )
 
 (
-BigBrowser(Pbind(\prout, 4)).write
+a = BigBrowser(Pbind(\prout, 4));
+// a.json;
+// a.write;
+a.putDb;
 )

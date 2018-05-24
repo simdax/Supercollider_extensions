@@ -1,19 +1,22 @@
 CouchDB {
-	var <>db;
-	var <>id;
+	var <db;
+	var <id;
 	var <rev;
+	var <ip = \localhost;
+	var <port = 5984;
 
+	// init
 	*new { arg db, id;
 		db ?? {Error("no DB").throw};
 		id ?? {Error("no ID").throw};
 		^super.newCopyArgs(db, id).init();
 	}
 	init{
-		var ret = this.get;
-		rev = parseYAML(ret).at("_rev");
+		rev = parseYAML(this.get).at("_rev");
 	}
+	// interface
 	curl{ arg verb = \GET;
-		^"curl -X % localhost:5984/%/% ".format(verb, db, id)
+		^"curl -X % %:%/%/% ".format(verb, ip, port, db, id).postln
 	}
 	get{
 		^this.curl.unixCmdGetStdOut;
