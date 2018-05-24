@@ -12,12 +12,14 @@ function create_text(x, y, txt, size, color){
 		svg.appendChild(text);
 }
 let paths = document.getElementsByTagName('path');
+let j = 0;
 for (var i = 0; i < paths.length; i++) {
 		let c = paths[i].getAttribute('class');
 		if (c === 'Note')
 		{
 		  	let rect = paths[i].getBoundingClientRect();
-		  	create_text(rect.x, rect.y - 15, i, 10, "red");
+		  	create_text(rect.x, rect.y - 15, j, 10, "red");
+				++j;
 		}
 }	
 

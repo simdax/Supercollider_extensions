@@ -3,7 +3,7 @@ Fux : Mel {
 	var engrave = true;
 
 	*global_f{
-		var diff = ~next - ~next.sign;
+		var diff = (~next_mvt ? 0) - (~next_mvt ? 0).sign;
 		if (~global_f.notNil){
 			^~global_f.(diff);
 		} {
@@ -39,13 +39,25 @@ Fux : Mel {
 }
 
 Fux_r : Fux {
-	*rythm_f {arg b;
-		^switch(b.size,
-			3, { [2, 1, 1]},
-			5, { [3, 1, 2, 1, 1]},
-			6, { [4, 2, 4, 4, 2, 2,]},
-			7, { [2, 1, 2, 1, 2, 1, 1]},
-			b.collect(1);
-		)
+	classvar <>formulas;
+	classvar <>rhythms;
+
+	*new{ arg mel, r, f;
+		formulas = f;
+		rhythms = r;
+		^super.new(mel);
+	}
+	*rythm_f { arg mel;
+		var res = mel.collect{1};
+		^rhythms !? {rhythms[mel] ? res}
+		?? {
+			var hole = mel.size.nextPowerOfTwo - res.size;
+			res.collect{arg v, i; v + if(i < hole){1}{0}};
+		}
+	}
+	*mel_f { arg inter;
+		var res = (0..inter);
+		^formulas !? {formulas[inter] ? res}
+		?? { res }
 	}
 }

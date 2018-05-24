@@ -20,7 +20,7 @@ transform () {
 				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
 				musescore -o $1.$format $1
 				sed -i '$i'"$js_tag" $1$page.$format
-				cat $1.$format $1$page.$format
+#				cat $1.$format $1$page.$format
 }
 
 echo transformation $name

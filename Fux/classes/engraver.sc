@@ -4,7 +4,7 @@ Engrave {
 	*new{ arg pattern, path, format, engine;
 		^super.new.go(pattern, path, format, engine)
 	}
-	go { arg pattern, write_path, format = "svg";
+	go { arg pattern, write_path, format = "svg", json_path;
 		var path = "/tmp";
 		var name = Date.getDate.format("%d-%m-%Y%H-%M")
 		++ "_out.mid";
@@ -16,8 +16,12 @@ Engrave {
 
 		"writing to : %".format(real_path).postln;
 		midi.write(real_path);
-		"% % % % %".format(midi_bin, real_path,
-			format, write_path, script_path).postln.unixCmd;}
+		"% % % % % %".format(
+			midi_bin, real_path,
+			format, write_path,
+			script_path, json_path)
+		.postln.unixCmd;
+	}
 }
 
 // re writing SimpleMidiFile from pattern

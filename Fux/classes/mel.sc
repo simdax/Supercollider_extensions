@@ -10,12 +10,9 @@ Mel : Pbind {
 		patternpairs = [
 			\type, this.class.name,
 			\degree, proxy,
-			\next, Pnext(proxy),
+//			\next, Pnext(proxy),
 //			\prev, Pdiff(proxy),
 		];
-	}
-	*classes{
-		^[\Fux]
 	}
 	*play_f{
 		^{this.pr_event_pat.play};

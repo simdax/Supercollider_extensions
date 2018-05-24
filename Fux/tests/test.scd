@@ -8,9 +8,9 @@ d = Contrapunctum(a);
 // p = Pdef(\i,
 p =	Ppar([
 	Ppar_options([
-		Fux_r(b.final),
-		Fux_r(c.final),
-		Fux_r(d.final),
+		Fux_r(b),
+		Fux_r(a),
+		Fux_r(d),
 		// Fux_r(c.final - 2),
 	],
 	\stk_inst, [6],
@@ -27,5 +27,5 @@ p.engrave;
 )
 
 (s.waitForBoot{
-	`p.repeat.play
+	p.repeat.play
 })
