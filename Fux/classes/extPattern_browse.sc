@@ -1,7 +1,8 @@
 + Pattern {
 	pr_browse {arg ev, time, f;
-		"(%)% : % @ %".format(ev.type, ev.instrument, ev.degree, time).postln;
-		f.(ev, time);
+//		f.isNil.if {"(%)% : % @ %".format(ev, time).postln}
+		f.isNil.if {"% @ %".format(ev, time).postln}
+		{f.(ev, time)};
 	}
 	browse { arg defaultEvent = Event.default, f,
 		time = 0, maxEvents = 100;

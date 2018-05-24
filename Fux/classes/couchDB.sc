@@ -12,14 +12,14 @@ CouchDB {
 		^super.newCopyArgs(db, id).init();
 	}
 	init{
-		rev = parseYAML(this.get).at("_rev");
+		rev = this.get.asString.parseYAML.at("_rev");
 	}
 	// interface
 	curl{ arg verb = \GET;
 		^"curl -X % %:%/%/% ".format(verb, ip, port, db, id).postln
 	}
 	get{
-		^this.curl.unixCmdGetStdOut;
+		^this.curl.unixCmdGetStdOut.replace($\n, "");
 	}
 	post{ arg content;
 		var send = rev !? {(_rev: rev)} ?? {()} ++ content;

@@ -2,10 +2,9 @@
 
 (async ()=>{
 		let data
-		data = await fetch("http://localhost:5984/music/1");
+		data = await fetch("http://localhost:5984/music/master", {mode: 'cors'});
 		data = await data.json();
 		console.log(data);
-
 		let svg = document.getElementsByTagName('svg')[0];
 		let ns = "http://www.w3.org/2000/svg";
 		function create_text(x, y, txt, size, color){	
@@ -24,7 +23,9 @@
 				if (c === 'Note')
 				{
 		  			let rect = paths[i].getBoundingClientRect();
-		  			create_text(rect.x, rect.y - 15, data[j].prout, 10, "red");
+						let harmo = (data[j]) ? data[j].harmo : 0
+						console.log(j);
+		  			create_text(rect.x, rect.y - 15, harmo, 10, "red");
 						++j;
 				}
 		}	

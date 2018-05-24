@@ -1,3 +1,6 @@
+
+
+// this is special rythm and mel
 (
 s.waitForBoot{
 	var d = { arg inter;
@@ -10,14 +13,15 @@ s.waitForBoot{
 		[[0,\r,\r,-1,\r], [0.5, 1,1,1,2,1]]
 	};
 	Pdef(\tdt3,
-		(Fux(Array.rand(10, 0, 4)).pattern.repeat
-			<> Pbind(\global_f, g);
-			//<> Pbind(\mel_f, d, \rythm_f, r)
+		(Fux(Array.rand(10, 0, 4)).repeat
+			<> Pbind(\global_f, g) <> Pbind(\mel_f, d, \rythm_f, r)
 		)
 	).play
 }
 )
 
+
+// test for ppar_options
 (
 var ex =[
 	\bib, [1, 2, 3, 4],

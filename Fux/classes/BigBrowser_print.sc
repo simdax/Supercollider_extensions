@@ -34,7 +34,8 @@
 		^JSON.stringify(this.extract_all(s));
 	}
 	putDb{ arg db = \music, id = 1;
-		^CouchDB(db, id).post(this.extract_all);
+		var res = CouchDB(db, id).post(this.extract_all);
+		res.postln;
 	}
 	write{ arg path, s = \index;
 		path = path ?

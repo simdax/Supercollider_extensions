@@ -1,5 +1,6 @@
 Fux : Mel {
 	var <>seed;
+	classvar <>trace = false;
 	var engrave = true;
 
 	*global_f{
@@ -26,15 +27,20 @@ Fux : Mel {
 	*pr_event_pat {
 		var globs = this.global_f();
 		var mel = globs[0], durs = globs[1];
-		^Pbind(
+		var pat = Pbind(
 			\type, \note,
 			\degree, Pseq(mel + ~degree),
+			\harmo, Pseq(mel + ~harmo) % 7,
 			\dur, Pseq(durs.normalizeSum * ~dur),
 			\scale, ~scale,
 			\mtranspose, ~mtranspose,
 			\instrument, ~instrument,
 			\amp, ~amp,
-		)
+		);
+		^if (trace){pat.trace}{pat}
+	}
+	trace{
+		this.class.trace = true;
 	}
 }
 

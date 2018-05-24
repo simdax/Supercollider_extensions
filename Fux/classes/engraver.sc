@@ -62,7 +62,7 @@ Engrave {
 			[
 				event.midinote2,
 				event.velocity,
-				time.postln,
+				time,
 				event.sustain,
 				event.upVelo, // addNote copies noteNumber if nil
 				event.channel ? 0,
