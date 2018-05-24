@@ -2,7 +2,7 @@
 
 (async ()=>{
 		let data
-		let url = "http://localhost:5984/master_music/_design/harmo/_view/time";
+		let url = "http://localhost:5984/master_music/_design/harmo/_view/harmo";
 		data = await fetch(url, {mode: 'cors'}).then(e => e.json()).then(e => e.rows);
 		console.log(data);
 		let svg = document.getElementsByTagName('svg')[0];

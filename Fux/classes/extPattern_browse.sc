@@ -26,6 +26,12 @@
 	}
 }
 
++ PatternProxy {
+	browse { arg ...args;
+		source.browse(*args);
+	}
+}
+
 + ListPattern {
 	browse {
 		arg defaultEvent = Event.default, f,

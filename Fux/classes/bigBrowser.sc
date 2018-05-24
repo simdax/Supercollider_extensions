@@ -21,8 +21,6 @@ BigBrowser {
 	browse {
 		if (bigData.isEmpty){
 			score.browse(f: { arg event, time;
-				event.postln;
-				time.postln;
 				bigData.put(time, event);
 			})
 		};

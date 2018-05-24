@@ -30,7 +30,7 @@ Pnext : FilterPattern {
 
 + Scale {
 	*greeks{
-		^[\ionian, \dorian, \phrygian, \lydian, \myxolydian, \minor]
+		^[\ionian, \dorian, \phrygian, \lydian, \mixolydian, \minor]
 		.collect(this.at(_)).choose
 	}
 }

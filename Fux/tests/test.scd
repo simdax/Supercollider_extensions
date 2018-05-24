@@ -1,37 +1,43 @@
+(s.waitForBoot{
+	Pdef(\play, Pdef(\pat).repeat).play
+})
+
 (
 a = (Array.fill(20, _.value) +
 	Array.rand(2, 0, 3)).integrate.mod(7);
 b = Contrapunctum(a);
 c = Contrapunctum(a);
 d = Contrapunctum(a).postln;
-//"../synths/synths.scd".resolveRelative.load;
-
 x = [b, c, d].collect{ arg val, i;
 	var mel = Fux_r(val);
-	BigBrowser(Pbind()).putDb(id:i.postln);
+	BigBrowser(Pbind()).putDb(id:i);
 	mel
 };
 x = x.add(Mel(a));
-
-// p = Pdef(\i,
-p =	Ppar([
-	Ppar_options(x,
-		\stk_inst, [6],
-		\instrument, \default,
-		\channel, [0, 1, 2, 3],
-		\mtranspose, [0, 0, 0, 0],
-		\amp, [1, 0.5, 0.5, 0.3] * 0.75,
-		//\scale, Scale.greeks,
-		\tempo, 1,
-	),
-	// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
-]);
-p.engrave;
-BigBrowser(p).asDict(\index).keysValuesDo{arg k, v;
-	CouchDB(\master_music, k).put(v)
-}
 )
 
-(s.waitForBoot{
-	p.repeat.play
-})
+(
+p =	Pdef('pat', Ppar([
+	Ppar_options(x,
+		\instrument, [\piano, \piano, \piano, \piano],
+//		\instrument, [\organdonor, \piano, \organdonor, \piano],
+		\channel, [0, 1, 2, 3],
+		\mtranspose, [0, 0, 0, 0],
+		\octave, [5, 5, 4, 3],
+		\amp, [0.67, 0.6, 0.7, 1],
+		\scale, `(Scale.greeks.degrees),
+		\tempo, 0.5,
+	),
+	// Pbind(\instrument, \noise, \dur, 1, ///\amp, 0.01),
+]));
+)
+
+(
+p.engrave;
+Tdef(\bulk, {
+	BigBrowser(p).asDict(\index).keysValuesDo{arg k, v;
+		CouchDB(\master_music, k).put(v, false);
+		0.08.yield;
+	}
+}).play
+)
