@@ -5,6 +5,11 @@ format=$2
 out=$3
 script_path=$4
 
+##setenv
+#source ~/.zshrc
+SED=gsed
+MUSESCORE="$HOME/.brew/Caskroom/musescore/2.2.1/MuseScore\ 2.app/Contents/MacOS/mscore"
+
 if [ $format == "pdf" ]; then
 				soft=evince				
 else
@@ -13,13 +18,13 @@ else
 fi
 
 try_open () {
-			$soft $1 || open $1 || xdg-open $1
+			$soft $1 || open -a firefox $1 || xdg-open $1
 }
 
 transform () {
 				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
-				musescore -o $1.$format $1
-				sed -i '$i'"$js_tag" $1$page.$format
+				eval "$MUSESCORE -o $1.$format $1"
+				$SED -i '$i'"$js_tag" $1$page.$format
 #				cat $1.$format $1$page.$format
 }
 

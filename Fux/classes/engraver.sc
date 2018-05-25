@@ -17,9 +17,9 @@ Engrave {
 		"writing to : %".format(real_path).postln;
 		midi.write(real_path);
 		"% % % % % %".format(
-			midi_bin, real_path,
+			midi_bin.shellQuote, real_path,
 			format, write_path,
-			script_path, json_path)
+			script_path.shellQuote, json_path)
 		.postln.unixCmd;
 	}
 }
