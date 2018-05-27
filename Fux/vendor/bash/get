@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+				echo no db
+				exit 1
+fi
+if [ -z $2 ]; then
+				echo no id
+				exit 1
+fi
+
+curl localhost:5984/$1/$2 # | jq '.value' | 

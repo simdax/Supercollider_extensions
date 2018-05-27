@@ -14,7 +14,7 @@ Contrapunctum : Pattern{
 		var i = 1;
 		harmo = [0];
 		final = [];
-		while {i < m.size}{
+		while {i < (m.size - 1)}{
 			var mvt_mel = m[i];
 			var mvt_harmo = (mvt_mel - m[i - 1]).sign;
 			var h = [
@@ -24,6 +24,7 @@ Contrapunctum : Pattern{
 			harmo = harmo.add([0, 4, 2, 5].wchoose(h));
 			i = i + 1;
 		};
+		harmo = harmo.add(0);
 		i = 0;
 		(m +++ harmo).flatten.pairsDo({ arg mvt_mel, harmo;
 			final = final.add(this.rule_mvt(mvt_mel, harmo, final[i - 1] ? 0));

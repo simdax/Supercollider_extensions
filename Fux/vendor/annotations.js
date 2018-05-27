@@ -1,9 +1,10 @@
 // <![CDATA[
 
 (async ()=>{
-		let data
+
 		let url = "http://localhost:5984/master_music/_design/harmo/_view/harmo";
-		data = await fetch(url, {mode: 'cors'}).then(e => e.json()).then(e => e.rows);
+		let data = await fetch(url, {mode: 'cors'}).then(e => e.json()).then(e => e.rows);
+				let filter = await fetch("http://localhost:5984/svg/filter").thendocument.createElementNS("<filter>");
 		console.log(data);
 		let svg = document.getElementsByTagName('svg')[0];
 		let ns = "http://www.w3.org/2000/svg";
@@ -25,7 +26,7 @@
 		  			let rect = paths[i].getBoundingClientRect();
 						let harmo = (data[j]) || "p";
 //						console.log(j);
-		  			create_text(rect.x, rect.y - 15, harmo.value, 10, "red");
+		  			create_text(rect.x, rect.y - 10, harmo.value, 11, "red");
 						++j;
 				}
 		}	

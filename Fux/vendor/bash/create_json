@@ -1,0 +1,3 @@
+#/bin/sh
+
+echo '{}' | jq --arg io "$(printf %s "$(cat $1)")" '. + {value: $io}'
