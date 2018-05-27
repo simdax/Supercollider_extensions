@@ -1,47 +1,27 @@
 Contrapunctum : Pattern{
-	var <>lo, <>hi;
+	var <>lo, <>hi, <>interdictions;
 	var <mel;
 	var <harmo;
 	var <final;
+	var size;
 
-	*new{ arg mel = Array.rand(5, 0, 5),
+	*new{ arg mel = Array.rand(5, 0, 5), interdictions = [],
 		lo = -5, hi = 5;
 		if(mel.size < 2)
 		{Error.throw("unsifficient size < 2")};
-		^super.new(lo, hi).init(mel);
+		^super.newCopyArgs(lo, hi, interdictions).init(mel);
 	}
 	init{ arg m;
-		var i = 1;
+		var i = 0;
+		size = m.size;
 		harmo = [0];
 		final = [];
-		while {i < (m.size - 1)}{
-			var mvt_mel = m[i];
-			var mvt_harmo = (mvt_mel - m[i - 1]).sign;
-			var h = [
-				this.rule_harmo(harmo[i - 1], mvt_mel, mvt_harmo),
-				this.rule_harmo(harmo[i - 1], mvt_mel + 4, mvt_harmo),
-				1, 1].normalizeSum;
-			harmo = harmo.add([0, 4, 2, 5].wchoose(h));
-			i = i + 1;
-		};
-		harmo = harmo.add(0);
-		i = 0;
+		this.calc(m);
 		(m +++ harmo).flatten.pairsDo({ arg mvt_mel, harmo;
 			final = final.add(this.rule_mvt(mvt_mel, harmo, final[i - 1] ? 0));
 			i = i + 1;
 		});
 		mel = m;
-	}
-	// logic
-	rule_harmo { arg harmo_prec, mvt_sign, mvt_note_sign;
-		^(
-			(mvt_sign != mvt_note_sign) &&
-			([0, 4].includes(harmo_prec).not)
-		).asInt;
-	}
-	rule_mvt{ arg cf, harmo, prec_note;
-		var dist = (harmo + cf) - prec_note;
-		^cf + if (dist > 3) {harmo - 7} { if (dist < -3) {harmo + 7} {harmo} }
 	}
 	// OOP
 	add{ arg item;
@@ -58,16 +38,17 @@ Contrapunctum : Pattern{
 	}
 	printOn{ arg out;
 		out << this.class.name << "\n";
-		out << "mel\t\t: " << mel << "\n";
-		out << "harmo\t: " << harmo << "\n";
-		out << "final\t: " << final;
+		out << "mel\t\t\t: " << mel << "\n";
+		out << "interdiction: " << interdictions << "\n";
+		out << "harmo\t\t: " << harmo << "\n";
+		out << "final\t\t: " << final;
 	}
 	embedInStream{ arg inval;
 		var i = 0;
 		var diffs = final.differentiate;
 		while {final[i].notNil}{
 			inval.harmo = harmo[i];
-//			inval.mvt = diffs[i];
+			//			inval.mvt = diffs[i];
 			inval.next_mvt = diffs[i + 1] ? 0;
 			inval = final[i].yield;
 			i = i + 1;

@@ -4,7 +4,7 @@
 		Pdef(\pat).engrave;
 		BigBrowser(Pdef(\pat)).asDict(\index).keysValuesDo{arg k, v;
 			CouchDB(\master_music, k).put(v, false);
-			0.08.yield;
+//			0.08.yield;
 		}
 	}).play;
 })
@@ -13,10 +13,10 @@
 a = (Array.fill(14, _.value) +
 	Array.rand(2, 0, 3)).integrate.mod(7);
 a[0] = 0;
-b = Contrapunctum(a);
-c = Contrapunctum(a);
-d = Contrapunctum(a);
-x = [b, c, d].collect{ arg val, i; Fux_r(val);};
+b = Contrapunctum(a).postln;
+c = Contrapunctum(a, b.harmo).postln;
+d = Contrapunctum(a, c.harmo).postln;
+x = [b, c, d].collect{ arg val, i; Fux_r(val)};
 x = x.add(Mel(a));
 )
 

@@ -26,7 +26,7 @@
 								{
 												let rect = paths[i].getBoundingClientRect();
 												let harmo = (data[j]) || "p";
-												create_text(rect.x, rect.y - 10, harmo.value, 11, "red");
+												create_text(rect.x, rect.y - 10, harmo.value, 11, "blue");
 												++j;
 								}
 				}	

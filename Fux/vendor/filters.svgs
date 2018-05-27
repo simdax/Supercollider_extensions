@@ -2,7 +2,7 @@
 				"filter": [
 												{
 																"feFlood" : {},
-																"@": {"flood-color": "yellow"}
+																"@": {"flood-color": "white"}
 												},
 												{
 																"feComposite" : {},
