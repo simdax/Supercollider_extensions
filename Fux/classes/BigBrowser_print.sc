@@ -22,7 +22,7 @@
 	pr_extract_all_time{
 		var res = ();
 		this.do({ arg time, object, index;
-			res[time] = object ++ (index: index);
+			res[time] = res[time].add(object ++ (index: index))
 		});
 		^res;
 	}
