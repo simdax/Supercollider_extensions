@@ -1,5 +1,6 @@
 #!/bin/sh
 
+dir=`dirname ${BASH_SOURCE[0]}`
 name=$1
 format=$2
 out=$3
@@ -18,9 +19,11 @@ try_open () {
 
 transform () {
 				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
+				svg_filters=`$dir/xml2json $dir/filters.svgs`
 				musescore -o $1.$format $1
+				
 				sed -i '$i'"$js_tag" $1$page.$format
-#				cat $1.$format $1$page.$format
+				sed -i '4i'"$svg_filters" $1$page.$format
 }
 
 echo transformation $name

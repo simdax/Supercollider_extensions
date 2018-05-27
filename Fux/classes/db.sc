@@ -1,7 +1,7 @@
 DB_Backup {
 	classvar <ip = \localhost;
 	classvar <port = 5984;
-	classvar bin_path = "../vendor/couchdb-dump/couchdb-backup.sh";
+	classvar bin_path = "../vendor/couchDb/couchdb-dump/couchdb-backup.sh";
 	classvar db_path = "../db";
 
 	// private

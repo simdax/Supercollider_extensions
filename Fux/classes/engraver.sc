@@ -1,6 +1,11 @@
 // general object
 // no need to use directly
 Engrave {
+	// class variables (but need resolveRelative)
+	midi_bin {^"../vendor/midi2ly2".resolveRelative}
+	script_path {^"../vendor/annotations.js".resolveRelative}
+	add_filter_script {^"../vendor/poutreDefs".resolveRelative}
+
 	*new{ arg pattern, path, format, engine;
 		^super.new.go(pattern, path, format, engine)
 	}
@@ -9,17 +14,15 @@ Engrave {
 		var name = Date.getDate.format("%d-%m-%Y%H-%M")
 		++ "_out.mid";
 		var real_path = "%/%".format(path, name);
-		var midi_bin = "../vendor/midi2ly2".resolveRelative;
-		var script_path = "../vendor/annotations.js".resolveRelative;
 		var midi = (pattern.class === Pattern).if
 		{SimpleMIDIFile.fromPattern(pattern)} {pattern};
 
 		"writing to : %".format(real_path).postln;
 		midi.write(real_path);
 		"% % % % % %".format(
-			midi_bin, real_path,
+			this.midi_bin, real_path,
 			format, write_path,
-			script_path, json_path)
+			this.script_path, json_path)
 		.postln.unixCmd;
 	}
 }
