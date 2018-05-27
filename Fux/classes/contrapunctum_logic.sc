@@ -18,7 +18,7 @@
 	}
 	rule_harmo { arg harmo_prec, mvt_sign, mvt_note_sign;
 		^(
-			(mvt_sign != mvt_note_sign) &&
+			// (mvt_sign != mvt_note_sign) &&
 			([0, 4].includes(harmo_prec).not)
 		).asInt;
 	}
@@ -38,6 +38,7 @@
 				// no 5-6 chord
 				if (((cons == 5) && (forbidden_val == 4)) ||
 					((cons == 4) && (forbidden_val == 5)) ||
+					// no same
 					(cons == forbidden_val))
 				{res = 0}
 			};
