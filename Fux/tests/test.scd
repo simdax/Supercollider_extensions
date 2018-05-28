@@ -47,7 +47,7 @@ y = Patch(p).cons;
 Pdef(\pat, Pbind(\re, 9, \finish, Pfunc{arg e;
 	prout = prout + e.delta;
 	if(y.keys.includes(prout)){
-		e.degree = 10;
+		e.degree = e.degree + 1;
 	};
 	e.re = 10;
 	true}
@@ -55,5 +55,5 @@ Pdef(\pat, Pbind(\re, 9, \finish, Pfunc{arg e;
 Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
 );
 )
-
+p.engrave
 Pdef(\pat).engrave
