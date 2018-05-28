@@ -8,18 +8,14 @@ Patch {
 	}
 	init {}
 	cons {
-		var g, k;
-
-		g = BigBrowser(pattern).sort(\degree);
-		k = g.collect{arg f; if(f[1].size > 1){f[1]}}
-		.collect{ arg chord, i;
+		^BigBrowser(pattern).sortBy(\time, \degree).asDict
+		.collect{arg f; if(f.size > 1){f.flatten}}
+		.select{ arg chord, i;
 			if (chord.notNil) {
-				var c = (chord.flatten % 7).asSet.asArray
+				var c = (chord % 7).asSet.asArray
 				.sort.differentiate[1..]; // removeFirst
-				if (c.includes(1)) {[i, c]}
-		}}.reject(_.isNil);
-		// da patch
-		^k.collect{arg r; g[r[0]]}
+				c.includes(1)
+		}};
 	}
 	gen {
 

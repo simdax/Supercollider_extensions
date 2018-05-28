@@ -38,17 +38,22 @@ p =	Ppar_options(x,
 	\tempo, Array.rand(100, 0.7, 2).choose
 	* Pwhite(0.8, 1.2).stutter(Prand([1, 2, 4] * 4, inf)),
 );
-BigBrowser(p).filter_sort(\time, \degree, 1, \instrument, \degree)
-
 )
 
-y = Patch(p).cons.flatten.asDict.postln;
-Pdef(\pat, Pbind(\time, Ptime(), \finish, Pfunc{arg e;
-	// e.time.postln;
-	if(y.keys.includes(e.time)){
-		y[e.time].postln;
-		e.degree.postln;
-}; true}) <> p,
-//Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
-);
 
+(
+var prout = 0;
+y = Patch(p).cons;
+Pdef(\pat, Pbind(\re, 9, \finish, Pfunc{arg e;
+	prout = prout + e.delta;
+	if(y.keys.includes(prout)){
+		e.degree = 10;
+	};
+	e.re = 10;
+	true}
+) <> p,
+Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
+);
+)
+
+Pdef(\pat).engrave

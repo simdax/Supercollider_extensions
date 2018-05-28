@@ -86,7 +86,7 @@ Engrave {
 		^midi;
 	}
 
-	engrave{ arg format = \svg, write_path;
+	engrave{ arg write_path, format = \svg;
 		Engrave(this.pr_engrave, write_path, format);
 	}
 }

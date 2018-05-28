@@ -15,9 +15,9 @@
 			event.use({
 				if( event.isRest.not )
 				{
-					(if  (event.type.asClass.respondsTo('pr_browse'))
-						{event.type.asClass} {this})
-					.perform(\pr_browse, event, time, f);
+					// (if  (event.type.asClass.respondsTo('pr_browse'))
+					// {event.type.asClass} {this})
+					this.perform(\pr_browse, event, time, f);
 					time = time + event.delta
 				}
 			});

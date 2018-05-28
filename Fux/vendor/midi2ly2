@@ -31,6 +31,6 @@ transform $name
 try_open $name$page.$format&
 if [ ! $out == "nil" ]; then
 				echo on copie dans $out
-				cp $name.$format $out
+				cp $name$page.$format $out$page.$format
 				cp $name $out
 fi	
