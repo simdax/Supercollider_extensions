@@ -23,9 +23,7 @@ c = Contrapunctum(a, b.harmo);
 d = Contrapunctum(a, b.harmo +++ c.harmo);
 x = [b, c, d].collect{ arg val, i; Fux_r2(val)};
 x = x.add(Mel2(a));
-)
 
-(
 p =	Ppar_options(x,
 	// \mel_f, [`[0, 1, 2], `[0], `[0], `[0, 2]],
 	// \mel_f, Pseed(100.rand, Prand([`[0, 1], `[0]], inf)),
@@ -40,6 +38,10 @@ p =	Ppar_options(x,
 	\tempo, Array.rand(100, 0.7, 2).choose
 	* Pwhite(0.8, 1.2).stutter(Prand([1, 2, 4] * 4, inf)),
 );
+BigBrowser(p).sort(\degree)
+
+)
+
 y = Patch(p).cons.flatten.asDict.postln;
 Pdef(\pat, Pbind(\time, Ptime(), \finish, Pfunc{arg e;
 	// e.time.postln;
@@ -51,8 +53,7 @@ Pdef(\pat, Pbind(\time, Ptime(), \finish, Pfunc{arg e;
 );
 Pdef(\pat).browse;
 )
-BigBrowser(Pbind(\degree, 3)).filter(\time, \degree, 1,\time).collect(_.collect(_.value)).asSortedArray.do(_.postln)
-
-.flatten
+BigBrowser(p).asDict[12]
+sort(\degree)
 
 Pdef(\pat).play
