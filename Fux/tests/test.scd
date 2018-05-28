@@ -21,8 +21,8 @@ a[0] = 0;
 b = Contrapunctum(a);
 c = Contrapunctum(a, b.harmo);
 d = Contrapunctum(a, b.harmo +++ c.harmo);
-x = [b, c, d].collect{ arg val, i; Fux_r(val)};
-x = x.add(Mel(a));
+x = [b, c, d].collect{ arg val, i; Fux_r2(val)};
+x = x.add(Mel2(a));
 )
 
 (
@@ -40,7 +40,19 @@ p =	Ppar_options(x,
 	\tempo, Array.rand(100, 0.7, 2).choose
 	* Pwhite(0.8, 1.2).stutter(Prand([1, 2, 4] * 4, inf)),
 );
-Pdef(\pat, Pbind(\finish, Pfunc{arg i; i.delta.postln}) <> p,
-	//Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
+y = Patch(p).cons.flatten.asDict.postln;
+Pdef(\pat, Pbind(\time, Ptime(), \finish, Pfunc{arg e;
+	// e.time.postln;
+	if(y.keys.includes(e.time)){
+		y[e.time].postln;
+		e.degree.postln;
+}; true}) <> p,
+//Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
 );
+Pdef(\pat).browse;
 )
+BigBrowser(Pbind(\degree, 3)).filter(\time, \degree, 1,\time).collect(_.collect(_.value)).asSortedArray.do(_.postln)
+
+.flatten
+
+Pdef(\pat).play

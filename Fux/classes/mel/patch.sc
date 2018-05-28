@@ -19,7 +19,7 @@ Patch {
 				if (c.includes(1)) {[i, c]}
 		}}.reject(_.isNil);
 		// da patch
-		k.do{arg r; g[r[0]].postln}
+		^k.collect{arg r; g[r[0]]}
 	}
 	gen {
 
