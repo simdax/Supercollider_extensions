@@ -14,7 +14,7 @@ Patch {
 		k = g.collect{arg f; if(f[1].size > 1){f[1]}}
 		.collect{ arg chord, i;
 			if (chord.notNil) {
-				var c = (chord % 7).asSet.asArray
+				var c = (chord.flatten % 7).asSet.asArray
 				.sort.differentiate[1..]; // removeFirst
 				if (c.includes(1)) {[i, c]}
 		}}.reject(_.isNil);

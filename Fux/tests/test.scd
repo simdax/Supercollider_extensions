@@ -38,7 +38,7 @@ p =	Ppar_options(x,
 	\tempo, Array.rand(100, 0.7, 2).choose
 	* Pwhite(0.8, 1.2).stutter(Prand([1, 2, 4] * 4, inf)),
 );
-BigBrowser(p).sort(\degree)
+BigBrowser(p).filter_sort(\time, \degree, 1, \instrument, \degree)
 
 )
 
@@ -51,9 +51,4 @@ Pdef(\pat, Pbind(\time, Ptime(), \finish, Pfunc{arg e;
 }; true}) <> p,
 //Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
 );
-Pdef(\pat).browse;
-)
-BigBrowser(p).asDict[12]
-sort(\degree)
 
-Pdef(\pat).play
