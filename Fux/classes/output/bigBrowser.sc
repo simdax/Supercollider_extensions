@@ -25,9 +25,9 @@ BigBrowser {
 			})
 		};
 	}
-	do{ arg f;
+	do{ arg f, as=\time;
 		var i = 0;
-		this.browse();
+		this.browse(as);
 		while {bigData.notEmpty} {
 			f.value(bigData.topPriority, bigData.pop, i);
 			i = i + 1;

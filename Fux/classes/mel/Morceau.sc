@@ -22,8 +22,10 @@ Morceau {
 				}
 			}).play;
 			// mel
-			a = (Array.fill(14, _.value) +
-				Array.rand(2, 0, 3)).integrate.mod(7);
+			a = (Array.fill(14, _.value) + Array.rand(2, 0, 3))
+			.integrate.mod(7).collect{ arg val;
+				(val==6).if{[0, 1, 2, 3, 4, 5].choose}{val}
+			};
 			a[0] = 0;
 			while {i < nb_voix} {
 				voix = voix.add(Contrapunctum(a, interdictions));
