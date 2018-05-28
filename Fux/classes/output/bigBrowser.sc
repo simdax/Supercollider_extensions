@@ -33,4 +33,8 @@ BigBrowser {
 			i = i + 1;
 		}
 	}
+	sort { arg by = \instrument;
+		^this.asDict(\time)
+		.collect(_.collect(_[by])).asSortedArray;
+	}
 }

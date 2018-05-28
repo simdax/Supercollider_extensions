@@ -14,7 +14,9 @@ JSON{
         if(obj.class === Symbol, {
             ^JSON.stringify(obj.asString)
         });
-
+        if(obj.class === Ref, {
+            ^JSON.stringify(obj.get.asString)
+        });
         if(obj.isKindOf(Dictionary), {
             out = List.new;
             obj.keysValuesDo({ arg key, value;
