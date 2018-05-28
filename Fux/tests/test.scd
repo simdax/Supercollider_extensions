@@ -1,10 +1,14 @@
+Morceau()
+
+Pdef(\pat).play
+
 (s.waitForBoot{
-//	Pdef(\play, Pdef(\pat).repeat).play;
+	Pdef(\play, Pdef(\pat).repeat).play;
 	Tdef(\bulk, {
 		Pdef(\pat).engrave;
 		BigBrowser(Pdef(\pat)).asDict(\index).keysValuesDo{arg k, v;
 			CouchDB(\master_music, k).put(v, false);
-			0.008.yield;
+			0.1.yield;
 		}
 	}).play;
 })
@@ -14,14 +18,10 @@ a = (Array.fill(14, _.value) +
 	Array.rand(2, 0, 3)).integrate.mod(7);
 a[0] = 0;
 b = Contrapunctum(a);
-c = Contrapunctum(a, b.harmo);
-d = Contrapunctum(a, b.harmo +++ c.harmo);
-x = [b, c, d].collect{ arg val, i; Fux_r(val)};
+// c = Contrapunctum(a, b.harmo);
+// d = Contrapunctum(a, b.harmo +++ c.harmo);
+x = [b].collect{ arg val, i; Fux_r(val)};
 x = x.add(Mel(a));
-)
-
-(
-[b, c, d].do(_.postln);
 )
 
 (

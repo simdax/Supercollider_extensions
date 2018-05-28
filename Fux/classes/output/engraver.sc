@@ -2,9 +2,9 @@
 // no need to use directly
 Engrave {
 	// class variables (but need resolveRelative)
-	midi_bin {^"../vendor/midi2ly2".resolveRelative}
-	script_path {^"../vendor/annotations.js".resolveRelative}
-	add_filter_script {^"../vendor/poutreDefs".resolveRelative}
+	midi_bin {^"../../vendor/midi2ly2".resolveRelative}
+	script_path {^"../../vendor/annotations.js".resolveRelative}
+	add_filter_script {^"../../vendor/poutreDefs".resolveRelative}
 
 	*new{ arg pattern, path, format, engine;
 		^super.new.go(pattern, path, format, engine)

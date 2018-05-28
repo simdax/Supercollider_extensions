@@ -2,12 +2,12 @@
 	// logic
 	calc{ arg m;
 		var i = 1;
+		var mvts = m.differentiate;
 		while {i < (size - 1)}{
-			var mvt_mel = m[i];
-			var mvt_harmo = (mvt_mel - m[i - 1]).sign;
+			var mvt_mel = mvts[i];
 			var h = [
-				this.rule_harmo(harmo[i - 1], mvt_mel, mvt_harmo),
-				this.rule_harmo(harmo[i - 1], mvt_mel + 4, mvt_harmo),
+				this.rule_harmo(m[i], mvts[i], harmo[i - 1], 0),
+				this.rule_harmo(m[i], mvts[i], harmo[i - 1], 4),
 				1, 1]
 			.collect(this.rule_mult(i));
 			harmo = harmo.add(
@@ -16,9 +16,10 @@
 		};
 		harmo = harmo.add(0);
 	}
-	rule_harmo { arg harmo_prec, mvt_sign, mvt_note_sign;
+	rule_harmo { arg note, harmo_prec, mvt_sign, cons;
+		var mvt_harmo = note + cons - harmo_prec;
 		^(
-			// (mvt_sign != mvt_note_sign) &&
+			(mvt_sign != mvt_harmo) &&
 			([0, 4].includes(harmo_prec).not)
 		).asInt;
 	}

@@ -16,12 +16,12 @@ Contrapunctum : Pattern{
 		size = m.size;
 		harmo = [0];
 		final = [];
-		this.calc(m);
+		mel = m;
+		this.calc(mel);
 		(m +++ harmo).flatten.pairsDo({ arg mvt_mel, harmo;
 			final = final.add(this.rule_mvt(mvt_mel, harmo, final[i - 1] ? 0));
 			i = i + 1;
 		});
-		mel = m;
 	}
 	// OOP
 	add{ arg item;

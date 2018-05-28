@@ -1,15 +1,18 @@
 Morceau {
+	var voix;
 	var pattern;
 
-	*new {
-		^super.new().init();
+	*new { arg nb_voix = 1;
+		if (nb_voix.class != Integer)
+		{Error("must be nb").throw};
+		^super.newCopyArgs().init(nb_voix);
 	}
-	init{
+	init{ arg nb_voix;
 		var a, b, c, d, x, p;
 
 		Server.local.waitForBoot{
-			//
-			//	Pdef(\play, Pdef(\pat).repeat).play;
+			var i = 0;
+			var interdictions = [];
 			Tdef(\bulk, {
 				Pdef(\pat).engrave;
 				BigBrowser(Pdef(\pat))
@@ -22,10 +25,14 @@ Morceau {
 			a = (Array.fill(14, _.value) +
 				Array.rand(2, 0, 3)).integrate.mod(7);
 			a[0] = 0;
-			b = Contrapunctum(a);
-			c = Contrapunctum(a, b.harmo);
-			d = Contrapunctum(a, b.harmo +++ c.harmo);
-			x = [b, c, d].collect{ arg val, i; Fux_r(val)};
+			while {i < nb_voix} {
+				voix = voix.add(Contrapunctum(a, interdictions));
+				(interdictions == []).if
+				{interdictions = voix[i].harmo}
+				{interdictions = voix[i - 1].harmo +++ voix[i].harmo};
+				i = i + 1;
+			};
+			x = voix.collect{ arg val, i; Fux_r(val)};
 			x = x.add(Mel(a));
 			// pattern
 			pattern = Pdef('pat', Ppar([
