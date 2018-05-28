@@ -13,21 +13,24 @@ Mel2 : Pattern {
 			\degree, proxy,
 		);
 	}
-	p{
-		^();
+	p{ arg ev;
+		ev.use {
+			^Pbind('degree', ~degree + 10).fin(2);
+		}
 	}
 	embedInStream{ arg inval;
 		var stream1 = base_pattern.asStream;
-		var stream2 = this.p;
 		var ev;
 
 		while {
 			ev = stream1.next(inval);
 			ev.notNil;
 		}{
-			loop{
-				inval = stream2.next(ev).yield;
-			}
+			var stream2 = this.p(ev).asStream;
+			while {
+				inval = stream2.next(ev); inval.notNil
+			}{ inval = inval.yield };
+			inval = ev;
 		}
 		^inval;
 	}
