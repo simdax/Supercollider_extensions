@@ -14,14 +14,21 @@ else
 fi
 
 try_open () {
-			$soft $1 || open $1 || xdg-open $1
+				$soft $1 || open $1 || xdg-open $1
+}
+
+push_db () {
+				curl -X PUT localhost:5984/svgs
+				$dir/xml2json $name$page.svg > /tmp/tmpsvg.json
+				curl -X PUT localhost:5984/svgs/$name -d@/tmp/tmpsvg.json
+				curl -X PUT localhost:5984/svgs/$name/midi
 }
 
 transform () {
 				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
 				svg_filters=`$dir/xml2json $dir/filters.svgs`
 				musescore -o $1.$format $1
-				
+
 				sed -i '$i'"$js_tag" $1$page.$format
 				sed -i '4i'"$svg_filters" $1$page.$format
 }
@@ -29,6 +36,7 @@ transform () {
 echo transformation $name
 transform $name
 try_open $name$page.$format&
+push_db $name
 if [ ! $out == "nil" ]; then
 				echo on copie dans $out
 				cp $name$page.$format $out$page.$format
