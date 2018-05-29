@@ -71,3 +71,7 @@ JSON{
     ^(s.parseYAML)
   }
 }
+
++ Collection {
+	json { ^JSON.stringify(this) }
+}

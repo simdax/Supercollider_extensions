@@ -8,7 +8,7 @@ Patch {
 	}
 	init {}
 	cons {
-		^BigBrowser(pattern).sortBy(\time, \degree).asDict
+		^BigBrowser(pattern).showBy(\time, \degree).asDict
 		.collect{arg f; if(f.size > 1){f.flatten}}
 		.select{ arg chord, i;
 			if (chord.notNil) {

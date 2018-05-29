@@ -24,33 +24,34 @@
 		}
 		^time;
 	}
+	b { ^BigBrowser(this) }
 }
 
-+ PatternProxy {
-	browse { arg ...args;
-		source.browse(*args);
-	}
-}
-
-+ ListPattern {
-	browse {
-		arg defaultEvent = Event.default, f,
-		time = 0, maxEvents = 100;
-
-		list.do{ arg pattern;
-			time = pattern.browse(defaultEvent, f, time, maxEvents);
-		}
-	}
-}
-
-+ Ppar {
-	browse {
-		arg defaultEvent = Event.default, f,
-		time = 0, maxEvents = 100;
-
-		list.do(_.browse(defaultEvent, f, time, maxEvents))
-	}
-}
+// + PatternProxy {
+// 	browse { arg ...args;
+// 		source.browse(*args);
+// 	}
+// }
+//
+// + ListPattern {
+// 	browse {
+// 		arg defaultEvent = Event.default, f,
+// 		time = 0, maxEvents = 100;
+//
+// 		list.do{ arg pattern;
+// 			time = pattern.browse(defaultEvent, f, time, maxEvents);
+// 		}
+// 	}
+// }
+//
+// + Ppar {
+// 	browse {
+// 		arg defaultEvent = Event.default, f,
+// 		time = 0, maxEvents = 100;
+//
+// 		list.do(_.browse(defaultEvent, f, time, maxEvents))
+// 	}
+// }
 
 + Fux {
 	*pr_browse { arg event, time, f;

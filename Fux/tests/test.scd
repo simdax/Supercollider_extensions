@@ -1,6 +1,6 @@
 
 (s.waitForBoot{
-	Pdef(\play, Pdef(\pat).repeat).play;
+	// Pdef(\play, Pdef(\pat).repeat).play;
 	Tdef(\bulk, {
 		Pdef(\pat).engrave;
 		BigBrowser(Pdef(\pat)).asDict(\index).keysValuesDo{
@@ -10,6 +10,9 @@
 		}
 	}).play;
 })
+
+
+
 
 (
 a = (Array.fill(14, _.value) +
@@ -33,27 +36,33 @@ p =	Ppar_options(x,
 	\channel, [0, 1, 2, 3],
 	\mtranspose, [0, 0, 0, 0],
 	\octave, [5, 4, 4, 3],
-	\amp, Prand([0.2, 0.4, 0.6], Prand([1, 2, 4] * 4, inf)),
 	\scale, `(Scale.greeks.degrees),
-	\tempo, Array.rand(100, 0.7, 2).choose
-	* Pwhite(0.8, 1.2).stutter(Prand([1, 2, 4] * 4, inf)),
+	// \amp, Prand([0.2, 0.4, 0.6], Prand([1, 2, 4] * 4, inf)),
+	// \tempo, Array.rand(100, 0.7, 2).choose
+	// * Pwhite(0.8, 1.2).stutter(Prand([1, 2, 4] * 4, inf)),
 );
-)
-
-
-(
-var prout = 0;
+o = 0;
 y = Patch(p).cons;
-Pdef(\pat, Pbind(\re, 9, \finish, Pfunc{arg e;
-	prout = prout + e.delta;
-	if(y.keys.includes(prout)){
+Pdef(\pat,
+	Pbind(\re, 9, \finish, Pfunc{arg e;
+	o = o + e.delta;
+	if(y.keys.includes(o)){
 		e.degree = e.degree + 1;
 	};
 	e.re = 10;
 	true}
-) <> p,
-Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
+) <> p
+//Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
 );
+Pdef(\ot, Pbind() <> p)
 )
-p.engrave
-Pdef(\pat).engrave
+
+Pdef(\ot).b.showBy(\index, \harmo)
+p.b.showBy(\index, \harmo)
+
+
+difference(
+	Pdef(\ot).b.asDict(\index).asSortedArray
+	p.b.asDict(\index).asSortedArray
+
+)

@@ -2,9 +2,10 @@
 
 (async ()=>{
 
-				let url = "http://localhost:5984/master_music/_design/harmo/_view/harmo";
+				let url = "http://localhost:5984/master/_design/sort/_view/svg_order";
 				let filterUrl = "http://localhost:5984/svg/filter"
 				let data = await fetch(url).then(e => e.json()).then(e => e.rows);
+				console.log(data);
 				let html = await fetch(filterUrl).then(e=>e.json()).then(e=>e.value);
 				let ns = "http://www.w3.org/2000/svg";
 				svg = document.getElementsByTagName('svg')[0];
@@ -26,7 +27,7 @@
 								{
 												let rect = paths[i].getBoundingClientRect();
 												let harmo = (data[j]) || "p";
-												create_text(rect.x, rect.y - 10, harmo.value, 11, "blue");
+												create_text(rect.x, rect.y - 10, data[j].value, 11, "blue");
 												++j;
 								}
 				}	
