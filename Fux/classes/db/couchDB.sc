@@ -17,11 +17,17 @@ CouchDB{
 	curl{ arg verb = \GET;
 		^"curl -X % %:%/%/% ".format(verb, ip, port, db, id)
 	}
+	create_db{
+		"curl -X % %:%/%".format(\PUT, ip, port, db).unixCmd;
+	}
 	get{
 		^this.curl.unixCmdGetStdOut.replace($\n, "");
 	}
 	put{ arg content, print = true;
 		var send = rev !? {(_rev: rev)} ?? {()} ++ content;
+		// wake up db if necessary
+		this.create_db;
+		// push content
 		(this.curl(\PUT) ++ "-d " ++
 			JSON.stringify(send).shellQuote)
 		.postln.unixCmd(postOutput: print);

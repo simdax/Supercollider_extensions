@@ -20,18 +20,23 @@ function update(key, update){
 
 let state = {
 		data: "",
-		midi: ""
+		midi: "",
+		changes: {},
 }
 
 let mutations = {
 		DATA: mutation_basic('data'),
 		MIDI: mutation_basic('midi'),
-		NOTE () {
+		NOTE (state, payload) {
+				state.changes[payload.i] = payload.offset_note
 				console.log("une note...")
 		}
 }
 
 let getters = {
+		track_ids(){
+				return PouchDB("localhost:5984/test/_design/1/_view/count").value
+		},
 		svg(state){
 				return js2xml(state.data.svg)
 		}
@@ -47,10 +52,11 @@ let actions = {
 				})
 		},
 		update_score ({state, commit}, args){
+				console.log(args)
 				master_db.get('music').then(doc => {
 						doc[args.i].degree = args.offset_note
 						master_db.put(doc).then(e => {
-								commit('NOTE'); console.log(e)		
+								commit('NOTE', args); console.log(e)		
 						})
 				})
 		}

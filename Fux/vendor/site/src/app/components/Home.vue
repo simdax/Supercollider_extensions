@@ -1,6 +1,6 @@
 <template lang="pug">
 main
-	#io(v-if="!ready") On attend connard, OK ?
+	#io(v-if="!ready") loading
 	svg(v-else v-html="svg")
 </template>
 
@@ -11,8 +11,8 @@ let computed = mapGetters(['svg']);
 import {svg} from "./mounted_hook"
 
 export default {
-		props: ["id"],
-		mounted() {this.getSVG(1).then(this.ready = true)},
+		props: ["svg_id"],
+		mounted() {this.getSVG(this.svg_id).then(this.ready = true)},
 		updated() {this.$nextTick(()=>{svg(this)})},
 		data() {return {ready: false}},
 		methods, computed,

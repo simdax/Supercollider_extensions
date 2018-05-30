@@ -55,7 +55,8 @@ Contrapunctum : Pattern{
 		}
 		^inval;
 	}
-	// doesNotUnderstand{arg sel ... args;
-	// 	^final.performList(sel, args);
-	// }
+	asCompileString{
+		// used for JSON conversion
+		^(mel: mel, interdictions: interdictions, harmo: harmo, out: final)
+	}
 }

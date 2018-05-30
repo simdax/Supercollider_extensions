@@ -1,0 +1,10 @@
+#/bin/bash
+# bash generate random alphanumeric string
+#
+
+# bash generate random 32 character alphanumeric string (upper and lowercase) and 
+NEW_UUID=tG15mlK3ZO9X7SwU8Q96Tv25eES0trVz
+
+# bash generate random 32 character alphanumeric string (lowercase only)
+cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1
+

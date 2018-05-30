@@ -1,4 +1,3 @@
-
 (
 a = (Array.fill(14, _.value) +
 	Array.rand(2, 0, 3)).integrate.mod(7)
@@ -46,3 +45,5 @@ CouchDB(\master, \music).put(Pdef(\pat).b.asDict)
 (s.waitForBoot{
 	Pdef(\play, Pdef(\pat).repeat).play;
 })
+
+a = Morceau()
