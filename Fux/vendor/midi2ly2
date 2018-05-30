@@ -22,9 +22,12 @@ push_db () {
 				$dir/xml2json xml $name$page.svg > /tmp/tmpsvg.json
 				dat=`date '+%Y-%m-%d%H:%M:%S'`
 	#dat= `$dir/hash_gen`
-				cat /tmp/tmpsvg.json | jq ". + {\"midi\":\"`cat $name | base64`\"}" > /tmp/tmpsvg.json	
+				midi=`cat $name | base64 | tr -d '\n'`
+				json=`cat /tmp/tmpsvg.json | jq -c ". + {\"midi\":\"$midi\"}"`
+				echo $json
+				cat /tmp/tmpsvg.json | jq -c ". + {\"midi\":\"$midi\"}" > /tmp/tmpsvg.json	
 			echo `cat /tmp/tmpsvg.json`		
-	curl -X PUT localhost:5984/svgs/$dat -d@/tmp/tmpsvg.json
+	curl -X PUT localhost:5984/svgs/$dat -d"$json"
 }
 
 transform () {
