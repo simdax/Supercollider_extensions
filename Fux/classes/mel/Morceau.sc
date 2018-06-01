@@ -1,12 +1,42 @@
 Morceau {
-	var ur_mel;
-	var voix;
-	var pattern;
+	var <ur_mel;
+	var <voix;
+	var <pattern;
 
 	*new { arg nb_voix = 1;
 		if (nb_voix.class != Integer)
-		{Error("must be nb").throw};
+		{ Error("must be nb").throw };
 		^super.newCopyArgs().init(nb_voix);
+	}
+	*newFrom{ arg id;
+		var instance = super.new();
+		var json = CouchDB(\ur_mel, id).get();
+		^instance.newFrom(JSON.parse(json));
+	}
+	newFrom{ arg json;
+		voix = [];
+		ur_mel = json.mel;
+		json.voix.do{ arg v;
+			v = v.toEvent;
+			v.keysValuesDo{
+				voix = voix.add(Contrapunctum
+					.newCopyArgs(-5, 5, v.interdictions,
+						v.mel, v.harmo, v.out).postln);
+			}
+		};
+		voix.postln;
+		this.create_pattern;
+	}
+	init{ arg nb_voix;
+		this.create_mels(nb_voix);
+		this.create_pattern;
+		this.push_db;
+	}
+	create_pattern{
+		pattern = Ppar_options(
+			voix.collect{ arg val, i; Fux_r(val)}.add(Mel(ur_mel)),
+			*this.keys
+		);
 	}
 	create_mels{ arg nb_voix;
 		var i = 0;
@@ -37,13 +67,5 @@ Morceau {
 	push_db{
 		CouchDB(\ur_mel, ur_mel.hash).put((mel: ur_mel, voix: voix));
 		pattern.engrave;
-	}
-	init{ arg nb_voix;
-		this.create_mels(nb_voix);
-		pattern = Ppar_options(
-			voix.collect{ arg val, i; Fux_r(val)}.add(Mel(ur_mel)),
-			*this.keys
-		);
-		this.push_db;
 	}
 }

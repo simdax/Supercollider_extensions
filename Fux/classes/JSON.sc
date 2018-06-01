@@ -68,10 +68,17 @@ JSON{
   // but that requires better regex
 
   *parse { arg s;
-    ^(s.parseYAML)
+		^s.parseYAML.toEvent;
   }
 }
 
++ Dictionary {
+	toEvent {
+		var ret = this.asPairs;
+		ret = ret.collect{arg k, i; if(i % 2 == 0){k.asSymbol}{k}};
+		^ret.asEvent;
+	}
+}
 + Collection {
 	json { ^JSON.stringify(this) }
 }

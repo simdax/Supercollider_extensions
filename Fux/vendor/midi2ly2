@@ -41,7 +41,7 @@ transform () {
 
 echo transformation $name
 transform $name
-try_open $name$page.$format&
+#try_open $name$page.$format&
 push_db
 if [ ! $out == "nil" ]; then
 				echo on copie dans $out

@@ -12,3 +12,5 @@ dist/
 # editor files
 *.sublime-workspace
 *.vscode
+*~
+*.lock

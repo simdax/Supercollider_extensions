@@ -1,48 +1,31 @@
 <template lang="pug">
-	main
-		#io(v-if="!ready") On attend connard, OK ?
-		svg(v-else v-html="svg")
+main
+	#io(v-if="!ready") loading
+	svg(v-else v-html="svg")
 </template>
 
 <script>
 import {mapActions, mapState, mapGetters} from 'vuex';
-let methods = mapActions(['getSVG']);
+let methods = mapActions(['getSVG', 'update_score']);
 let computed = mapGetters(['svg']);
+import {svg} from "./mounted_hook"
 
 export default {
-		methods, computed,
+		props: ["svg_id"],
+		mounted() {this.getSVG(this.svg_id).then(this.ready = true)},
+		updated() {this.$nextTick(()=>{svg(this)})},
 		data() {return {ready: false}},
-		mounted() {
-				this.getSVG(1).then( () => {
-						// this.ready = true;
-						// document.querySelectorAll('.Note').forEach(el => {
-						// 		console.log(el)
-						// 		let move = function (ev) {
-						// 				let offset = ev.pageY - this.y
-						// 				console.log(ev.pageY, this.y, offset)
-						// 				this.el.style = `transform: translateY(${Math.floor(offset / this.height)}px);`
-						// 		}
-						// 		el.addEventListener('mousedown', ev =>{
-						// 				console.log("pute")
-						// 				let height = ev.target.getBoundingClientRect().height
-						// 				let f = move.bind({height, y:ev.pageY, el:ev.target});
-						// 				ev.target.setAttribute('fill', 'red')
-						// 				document.addEventListener('mousemove', f);
-						// 				document.addEventListener('mouseup', ev =>{
-						// 						document.removeEventListener('mousemove', f);
-						// 				})
-						// 		})	
-//					})					
-				})
-		}
+		methods, computed,
 }
 </script>
 
-<style scoped>
-.Note{
-		fill: red;
-		cursor: pointer;
+<style>
+	svg .Note{
+	cursor: pointer;
 }
+</style>
+
+<style scoped>
 .home-container {
 		text-align: center;
 }
