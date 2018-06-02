@@ -18,33 +18,25 @@ try_open () {
 }
 
 push_db () {
-				curl -X PUT localhost:5984/svgs
-				$dir/xml2json xml $name$page.svg > /tmp/tmpsvg.json
-				dat=`date '+%Y-%m-%d%H:%M:%S'`
-	#dat= `$dir/hash_gen`
-				midi=`cat $name | base64 | tr -d '\n'`
+				#echo $1
+				$dir/xml2json xml $1$page.$format > /tmp/tmpsvg.json
+				midi=`cat $1.mid | base64 | tr -d '\n'`
 				json=`cat /tmp/tmpsvg.json | jq -c ". + {\"midi\":\"$midi\"}"`
-				echo $json
 				cat /tmp/tmpsvg.json | jq -c ". + {\"midi\":\"$midi\"}" > /tmp/tmpsvg.json	
-			echo `cat /tmp/tmpsvg.json`		
-	curl -X PUT localhost:5984/svgs/$dat -d"$json"
+				echo `cat /tmp/tmpsvg.json`		
+				echo $midi
+				curl -X PUT localhost:5984/summa_musicae/$name -d"$json"
 }
 
 transform () {
 				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
 				svg_filters=`$dir/xml2json $dir/filters.svgs`
-				musescore -o $1.$format $1
-
+				musescore -o $1.$format $1.mid
+				#echo $1.$format
 				sed -i '$i'"$js_tag" $1$page.$format
 				sed -i '4i'"$svg_filters" $1$page.$format
 }
 
-echo transformation $name
-transform $name
+transform /tmp/$name
 #try_open $name$page.$format&
-push_db
-if [ ! $out == "nil" ]; then
-				echo on copie dans $out
-				cp $name$page.$format $out$page.$format
-				cp $name $out
-fi	
+push_db /tmp/$name

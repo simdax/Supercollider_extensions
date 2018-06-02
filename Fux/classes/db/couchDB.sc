@@ -23,13 +23,17 @@ CouchDB{
 	get{
 		^this.curl.unixCmdGetStdOut.replace($\n, "");
 	}
+	add{ arg key, value;
+		var doc = JSON.parse(this.get());
+		doc[key] = value;
+		this.put(doc);
+	}
 	put{ arg content, print = true;
 		var send = rev !? {(_rev: rev)} ?? {()} ++ content;
 		// wake up db if necessary
 		this.create_db;
 		// push content
-		(this.curl(\PUT) ++ "-d " ++
-			JSON.stringify(send).shellQuote)
+		(this.curl(\PUT) ++ "-d " ++ send.json.shellQuote)
 		.postln.unixCmd(postOutput: print);
 	}
 }

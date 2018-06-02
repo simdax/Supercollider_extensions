@@ -5,26 +5,24 @@ Morceau {
 
 	*new { arg nb_voix = 1;
 		if (nb_voix.class != Integer)
-		{ Error("must be nb").throw };
+		{ Error("must be nb but is %"
+			.format(nb_voix.class)).throw };
 		^super.newCopyArgs().init(nb_voix);
 	}
 	*newFrom{ arg id;
 		var instance = super.new();
-		var json = CouchDB(\ur_mel, id).get();
-		^instance.newFrom(JSON.parse(json));
+		var json = CouchDB(\summa_musicae, id).get();
+		^instance.newFrom(JSON.parse(json).toEvent);
 	}
 	newFrom{ arg json;
 		voix = [];
-		ur_mel = json.mel;
+		ur_mel = json.mel.asInt;
 		json.voix.do{ arg v;
 			v = v.toEvent;
-			v.keysValuesDo{
-				voix = voix.add(Contrapunctum
-					.newCopyArgs(-5, 5, v.interdictions,
-						v.mel, v.harmo, v.out).postln);
-			}
+			voix = voix.add(Contrapunctum
+				.newCopyArgs(-5, 5, v.interdictions.asInt,
+					v.mel.asInt, v.harmo.asInt, v.out.asInt));
 		};
-		voix.postln;
 		this.create_pattern;
 	}
 	init{ arg nb_voix;
@@ -65,7 +63,12 @@ Morceau {
 			\tempo, 0.5]
 	}
 	push_db{
-		CouchDB(\ur_mel, ur_mel.hash).put((mel: ur_mel, voix: voix));
-		pattern.engrave;
+		var name, hash = ur_mel.hash;
+		name = pattern.engrave();
+		CouchDB(\summa_musicae, hash)
+		.put((svg: name, mel: ur_mel, voix: voix));
+	}
+	play{
+		pattern.play
 	}
 }

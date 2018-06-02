@@ -1,8 +1,8 @@
-(
+(.
 a = (Array.fill(14, _.value) +
 	Array.rand(2, 0, 3)).integrate.mod(7)
 .collect{ arg val;
-	(val==6).if{[0, 1, 2, 3, 4, 5].choose}{val}
+	(val == 6).if{[0, 1, 2, 3, 4, 5].choose}{val}
 };
 a[0] = 0;
 b = Contrapunctum(a);
@@ -37,8 +37,8 @@ Pdef(\pat,
 ) <> p
 //Pbind(\instrument, \noise, \dur, 1, \amp, 0.01),
 );
-Pdef(\pat).engrave;
-CouchDB(\master, \music).put(Pdef(\pat).b.asDict)
+//Pdef(\pat).engrave;
+//CouchDB(\master, \music).put(Pdef(\pat).b.asDict)
 
 )
 

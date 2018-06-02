@@ -11,9 +11,6 @@ Contrapunctum : Pattern{
 		{Error.throw("unsifficient size < 2")};
 		^super.newCopyArgs(lo, hi, interdictions).init(mel);
 	}
-	*newFrom{arg ...args;
-		^super.newCopyArgs(*args);
-	}
 	init{ arg m;
 		var i = 0;
 		size = m.size;
