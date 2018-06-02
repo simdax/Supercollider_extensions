@@ -1,4 +1,4 @@
-(.
+(
 a = (Array.fill(14, _.value) +
 	Array.rand(2, 0, 3)).integrate.mod(7)
 .collect{ arg val;
@@ -25,10 +25,15 @@ p =	Ppar_options(x,
 	\tempo, Array.rand(100, 0.7, 2).choose
 	* Pwhite(0.9, 1.1).stutter(Prand([1, 2, 4] * 4, inf)),
 );
+p = ~morceau;
 o = 0;
+q = 0;
 y = Patch(p).cons;
 Pdef(\pat,
 	Pbind(\finish, Pfunc{arg e;
+		// e.postln;
+		q.postln;
+		q = q + 1;
 	o = o + e.delta;
 	if(y.keys.includes(o)){
 		e.degree = e.degree + 1;
@@ -46,4 +51,4 @@ Pdef(\pat,
 	Pdef(\play, Pdef(\pat).repeat).play;
 })
 
-a = Morceau()
+~morceau = Morceau(4).pattern

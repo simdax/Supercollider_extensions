@@ -4,7 +4,7 @@ export default class {
 				this.socket = new WebSocket('ws://localhost:5000')
  				this.supercollider_socket = new WebSocket('ws://localhost:5000/supercollider')
 		}
-		send(msg, timeout = 2000){
+		send(msg, timeout = 10000){
 				return new Promise((res, rej) => {
 						if (!this.socket.readyState)
 								this.socket.onopen = () => {

@@ -18,21 +18,19 @@ try_open () {
 }
 
 push_db () {
-				#echo $1
 				$dir/xml2json xml $1$page.$format > /tmp/tmpsvg.json
 				midi=`cat $1.mid | base64 | tr -d '\n'`
 				json=`cat /tmp/tmpsvg.json | jq -c ". + {\"midi\":\"$midi\"}"`
-				cat /tmp/tmpsvg.json | jq -c ". + {\"midi\":\"$midi\"}" > /tmp/tmpsvg.json	
-				echo `cat /tmp/tmpsvg.json`		
+				echo $json > /tmp/tmpsvg.json
+				cat /tmp/tmpsvg.json
 				echo $midi
-				curl -X PUT localhost:5984/summa_musicae/$name -d"$json"
+				curl -X PUT localhost:5984/summa_musicae/$name -d@/tmp/tmpsvg.json
 }
 
 transform () {
 				js_tag="<script type=\"text/ecmascript\" xlink:href=\"$script_path\"></script>"
 				svg_filters=`$dir/xml2json $dir/filters.svgs`
 				musescore -o $1.$format $1.mid
-				#echo $1.$format
 				sed -i '$i'"$js_tag" $1$page.$format
 				sed -i '4i'"$svg_filters" $1$page.$format
 }

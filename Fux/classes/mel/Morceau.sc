@@ -32,7 +32,7 @@ Morceau {
 	}
 	create_pattern{
 		pattern = Ppar_options(
-			voix.collect{ arg val, i; Fux_r(val)}.add(Mel(ur_mel)),
+			voix.collect{ arg val; Fux_r2(val)}.add(Mel2(ur_mel)),
 			*this.keys
 		);
 	}

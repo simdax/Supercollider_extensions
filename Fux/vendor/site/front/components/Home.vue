@@ -1,21 +1,28 @@
 <template lang="pug">
 main
 	#io(v-if="!ready") please, choose a file
-	svg(v-else v-html="svg")
+	svg(ref=svg v-html="svg")
 	p(style="visibility: hidden;") {{svg}}
 </template>
 
 <script>
 import {mapActions, mapState, mapGetters} from 'vuex';
-let methods = mapActions(['getSVG', 'update_score']);
-let computed = mapGetters(['svg']);
 import post_svg from "./mounted_hook"
+let computed = mapGetters(['svg']);
+let methods = mapActions(['getSVG', 'update_score']);
 
 export default {
-		updated() {this.$nextTick(()=>{post_svg(this);
-																	 this.ready = true})},
-		computed,
 		data() {return {ready: false}},
+		updated() {
+				this.$nextTick(()=>{
+						if(!this.ready && this.svg)
+						{
+								post_svg(this);
+								this.ready = true
+						}
+				})
+		},
+		computed,
 		methods, computed,
 }
 </script>

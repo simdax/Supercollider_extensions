@@ -19,16 +19,18 @@ export default{
 </script>
 
 <style>
-html, body, #app {
-		width: 100%;
-		height: 100%;
+*{
 		user-drag: none; 
 		user-select: none;
 }
-#svg{ width: 100%; height: 80%}
+html, body, #app {
+		width: 100%;
+		height: 100%;
+}
 #app {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 }
+#svg{ width: 100%; height: 80%}
 </style>

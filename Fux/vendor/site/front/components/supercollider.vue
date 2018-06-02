@@ -15,17 +15,18 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 
+// must return an array of args
 let msgs= (v) => {
 		return {
-				prout(){ return ['' + v.current]},
-				new_track(){return {nb: 3}},
-				play (){return [v.current]}
+				prout (){ return ['' + v.current]},
+				new_track (){return [3]},
+				play (){return [v.current]},
+				patch (){return [v.current]},
 		}
 }
 export default {
 		methods: {
 				click(){
-
 						this.$store.dispatch('supercollider_msg',
 																 {name: this.msg,
 																	args: msgs(this)[this.msg]()})						

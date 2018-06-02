@@ -8,7 +8,7 @@ function move (ev) {
 		this.el.style = style
 }
 
-function update (vue_instance, i, f, self) {
+function update (vue_instance, i, f) {
 		let ff = function(e){
 				vue_instance.update_score({offset_note, i})
 				document.removeEventListener('mousemove', f);
@@ -20,10 +20,10 @@ function update (vue_instance, i, f, self) {
 
 function mousedown_callback(i, stems, vue_instance){
 		return ev => {
-				let f = move.bind({height: 2.5, y:ev.pageY, el:ev.target, i, stems});
+				let f = move.bind({height: 2.5, y: ev.pageY, el: ev.target, i, stems});
 				ev.target.setAttribute('fill', 'red')
 				document.addEventListener('mousemove', f);
-				document.addEventListener('mouseup', update(vue_instance, i, f, update));
+				document.addEventListener('mouseup', update(vue_instance, i, f));
 		}
 }
 

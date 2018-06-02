@@ -21,3 +21,28 @@ Patch {
 
 	}
 }
+
+Patch_pattern : Pfunc {
+	var <values;
+
+	*new{ arg values, resetFunc;
+		^super.new({}, resetFunc).init(values);
+	}
+	init{ arg val;
+		var stream, next, counter = 0;
+		values = val;
+		stream = values.iter;
+
+		next = stream.next;
+		nextFunc = { arg ev;
+			if (next.notNil){
+				if (counter == next[0]) {
+					ev.degree = ev.degree + next[1];
+					next = stream.next;
+				}
+			};
+			counter = counter + 1;
+			ev.delta
+		};
+	}
+}
